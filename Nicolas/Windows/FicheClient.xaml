@@ -8,18 +8,16 @@
         Title="FicheClient" Height="300" Width="200">
     <Grid>
         <StackPanel>
-            <Label Content="Label" />
-            <Label Content="Label" />
-            <TextBox
-            Width="120"
-            Text="TextBox"
-            TextWrapping="Wrap" />
-            <Label Content="Label" />
-            <TextBox
-            Width="120"
-            Text="TextBox"
-            TextWrapping="Wrap" />
-            <Label Content="Label" />
+            <Label x:Name="labFicheClient" Content="Fiche Client" HorizontalAlignment="Center" FontWeight="Bold" />
+            <Label x:Name="labNom" Content="Nom" Margin="20,10,0,0" />
+            <TextBox x:Name="txtNom"
+            Width="150"
+            TextWrapping="Wrap" Margin="0,0,20,0" HorizontalAlignment="Center" />
+            <Label x:Name="labPrenom" Content="Prénom" Margin="20,10,0,0" />
+            <TextBox x:Name="txtPrenom"
+            Width="150"
+            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" />
+            <Label x:Name="labMail" Content="Label" />
             <TextBox
             Width="120"
             Text="TextBox"
