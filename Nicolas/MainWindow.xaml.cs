@@ -26,26 +26,6 @@ namespace Nicolas
             UCLogin login = new UCLogin();
             UCRechercherVin rechercherVin = new UCRechercherVin();
             mainGrid.Children.Add(login);
-
-            /*Commande uneCommande = new Commande(0, 0, null, null, null);
-            commandes = uneCommande.FindAll();
-            foreach (Commande commande in commandes)
-            {
-                if (commande.Valider.HasValue && commande.Valider.Value)
-                {
-                    // Logique pour les commandes validées
-                }
-                else
-                {
-                    uneCommande = commande;
-                    break;
-                }
-            }
-            UCModifierCommande modifierCommande = new UCModifierCommande(uneCommande);*/
-
-           /* UCVisualiserCommandes visualiserCommande = new UCVisualiserCommandes();
-            UCVisualiserDemandes visualiserDemandes = new UCVisualiserDemandes();*/
-
         }
     }
 }
