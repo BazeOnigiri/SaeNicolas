@@ -143,8 +143,18 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesDemandes.Add(new Demande((Int32)dr["numDemande"], (Int32)dr["numVin"],
-                   (Int32)dr["numEmploye"], (Int32?)dr["numCommande"], (Int32)dr["numClient"], (DateTime?)dr["dateDemande"], (Int32?)dr["quantiteDemande"], (String?)dr["etatDemande"]));
+                {
+                    int numDemande = dr["numDemande"] != DBNull.Value ? Convert.ToInt32(dr["numDemande"]) : 0;
+                    int numVin = dr["numVin"] != DBNull.Value ? Convert.ToInt32(dr["numVin"]) : 0;
+                    int numEmploye = dr["numEmploye"] != DBNull.Value ? Convert.ToInt32(dr["numEmploye"]) : 0;
+                    int? numCommande = dr["numCommande"] != DBNull.Value ? Convert.ToInt32(dr["numCommande"]) : (int?)null;
+                    int numClient = dr["numClient"] != DBNull.Value ? Convert.ToInt32(dr["numClient"]) : 0;
+                    DateTime? dateDemande = dr["dateDemande"] != DBNull.Value ? Convert.ToDateTime(dr["dateDemande"]) : (DateTime?)null;
+                    int? quantiteDemande = dr["quantiteDemande"] != DBNull.Value ? Convert.ToInt32(dr["quantiteDemande"]) : (int?)null;
+                    string? etatDemande = dr["etatDemande"] != DBNull.Value ? dr["etatDemande"].ToString() : null;
+
+                    lesDemandes.Add(new Demande(numDemande, numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, etatDemande));
+                }
             }
             return lesDemandes;
         }

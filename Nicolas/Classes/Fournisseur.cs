@@ -52,7 +52,12 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesFournisseurs.Add(new Fournisseur((Int32)dr["numFournisseur"], (String?)dr["nomFournisseur"]));
+                {
+                    int numFournisseur = dr["numFournisseur"] != DBNull.Value ? Convert.ToInt32(dr["numFournisseur"]) : 0;
+                    string? nomFournisseur = dr["nomFournisseur"] != DBNull.Value ? dr["nomFournisseur"].ToString() : null;
+
+                    lesFournisseurs.Add(new Fournisseur(numFournisseur, nomFournisseur));
+                }
             }
             return lesFournisseurs;
         }

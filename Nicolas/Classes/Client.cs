@@ -83,8 +83,14 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesClients.Add(new Client((Int32)dr["numClient"], (String?)dr["nomClient"],
-                   (String?)dr["prenomClient"], (String?)dr["mailClient"]));
+                {
+                    int numClient = dr["numClient"] != DBNull.Value ? Convert.ToInt32(dr["numClient"]) : 0;
+                    string? nomClient = dr["nomClient"] != DBNull.Value ? dr["nomClient"].ToString() : null;
+                    string? prenomClient = dr["prenomClient"] != DBNull.Value ? dr["prenomClient"].ToString() : null;
+                    string? mailClient = dr["mailClient"] != DBNull.Value ? dr["mailClient"].ToString() : null;
+
+                    lesClients.Add(new Client(numClient, nomClient, prenomClient, mailClient));
+                }
             }
             return lesClients;
         }

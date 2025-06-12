@@ -76,6 +76,8 @@ namespace Nicolas.Classes
             }
         }
 
+
+
         public List<DetailCommande> FindAll()
         {
             List<DetailCommande> lesDetailCommandes = new List<DetailCommande>();
@@ -83,8 +85,14 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesDetailCommandes.Add(new DetailCommande((Int32)dr["numCommande"], (Int32)dr["numVin"], 
-                        (Int32?)dr["quantite"], (Decimal?)dr["prix"]));
+                {
+                    int numCommande = dr["numCommande"] != DBNull.Value ? Convert.ToInt32(dr["numCommande"]) : 0;
+                    int numVin = dr["numVin"] != DBNull.Value ? Convert.ToInt32(dr["numVin"]) : 0;
+                    int? quantite = dr["quantite"] != DBNull.Value ? Convert.ToInt32(dr["quantite"]) : (int?)null;
+                    decimal? prix = dr["prix"] != DBNull.Value ? Convert.ToDecimal(dr["prix"]) : (decimal?)null;
+
+                    lesDetailCommandes.Add(new DetailCommande(numCommande, numVin, quantite, prix));
+                }
             }
             return lesDetailCommandes;
         }

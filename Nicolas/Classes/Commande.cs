@@ -98,8 +98,15 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesCommandes.Add(new Commande((Int32)dr["numCommande"], (Int32)dr["numEmploye"],
-                   (DateTime?)dr["dateCommande"], (bool?)dr["valider"], (Decimal?)dr["prixTotal"]));
+                {
+                    int numCommande = dr["numCommande"] != DBNull.Value ? Convert.ToInt32(dr["numCommande"]) : 0;
+                    int numEmploye = dr["numEmploye"] != DBNull.Value ? Convert.ToInt32(dr["numEmploye"]) : 0;
+                    DateTime? dateCommande = dr["dateCommande"] != DBNull.Value ? Convert.ToDateTime(dr["dateCommande"]) : (DateTime?)null;
+                    bool? valider = dr["valider"] != DBNull.Value ? Convert.ToBoolean(dr["valider"]) : (bool?)null;
+                    decimal? prixTotal = dr["prixTotal"] != DBNull.Value ? Convert.ToDecimal(dr["prixTotal"]) : (decimal?)null;
+
+                    lesCommandes.Add(new Commande(numCommande, numEmploye, dateCommande, valider, prixTotal));
+                }
             }
             return lesCommandes;
         }
