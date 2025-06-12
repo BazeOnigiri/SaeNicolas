@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid x:Name="dgDemande" d:ItemsSource="{d:Binding LesDemandes}">
+        <DataGrid x:Name="dgDemande" d:ItemsSource="{d:Binding LesDemandes}" Margin="20,20,20,20">
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
