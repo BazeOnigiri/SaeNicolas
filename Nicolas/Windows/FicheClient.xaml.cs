@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nicolas.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,20 @@ namespace Nicolas.Windows
     /// </summary>
     public partial class FicheClient : Window
     {
+        public string Nom { get; set; }
+        public string Prenom { get; set; }
+        public string Mail { get; set; }
+
+
         public FicheClient()
         {
             InitializeComponent();
+        }
+
+        private void butValider_Click(object sender, RoutedEventArgs e)
+        {
+            Client client = new Client(0,Nom, Prenom, Mail);
+            client.Create();
         }
     }
 }

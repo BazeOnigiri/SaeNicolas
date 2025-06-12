@@ -12,17 +12,16 @@
             <Label x:Name="labNom" Content="Nom" Margin="20,10,0,0" />
             <TextBox x:Name="txtNom"
             Width="150"
-            TextWrapping="Wrap" Margin="0,0,20,0" HorizontalAlignment="Center" />
+            TextWrapping="Wrap" Margin="0,0,20,0" HorizontalAlignment="Center" Text="{Binding Nom}" />
             <Label x:Name="labPrenom" Content="Prénom" Margin="20,10,0,0" />
             <TextBox x:Name="txtPrenom"
             Width="150"
-            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" />
-            <Label x:Name="labMail" Content="Label" />
-            <TextBox
-            Width="120"
-            Text="TextBox"
-            TextWrapping="Wrap" />
-            <Button Content="Button" />
+            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" Text="{Binding Prenom}" />
+            <Label x:Name="labMail" Content="Mail" Margin="20,10,0,0" />
+            <TextBox x:Name="txtMail"
+            Width="150"
+            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" Text="{Binding Mail}" />
+            <Button x:Name="butValider" Content="Valider" Background="Black" Foreground="#FFDEDEDE" HorizontalAlignment="Center" Margin="0,20,0,0" Click="butValider_Click" />
 
         </StackPanel>
 

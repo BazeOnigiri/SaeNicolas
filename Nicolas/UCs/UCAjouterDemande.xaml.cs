@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nicolas.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace Nicolas.UCs
         public UCAjouterDemande()
         {
             InitializeComponent();
+        }
+
+        private void butNouveauClient_Click(object sender, RoutedEventArgs e)
+        {
+            FicheClient client = new FicheClient();
+            client.Show();
         }
     }
 }
