@@ -11,9 +11,9 @@ namespace Nicolas.Classes
     internal class Fournisseur
     {
         private int numFournisseur;
-        private string nomFournisseur;
+        private string? nomFournisseur;
 
-        public Fournisseur(int numFournisseur, string nomFournisseur)
+        public Fournisseur(int numFournisseur, string? nomFournisseur)
         {
             NumFournisseur = numFournisseur;
             NomFournisseur = nomFournisseur;
@@ -32,7 +32,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string NomFournisseur
+        public string? NomFournisseur
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesFournisseurs.Add(new Fournisseur((Int32)dr["numFournisseur"], (String)dr["nomFournisseur"]));
+                    lesFournisseurs.Add(new Fournisseur((Int32)dr["numFournisseur"], (String?)dr["nomFournisseur"]));
             }
             return lesFournisseurs;
         }

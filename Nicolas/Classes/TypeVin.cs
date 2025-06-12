@@ -11,9 +11,9 @@ namespace Nicolas.Classes
     internal class TypeVin
     {
         private int numType;
-        private string nomtype;
+        private string? nomtype;
 
-        public TypeVin(int numType, string nomtype)
+        public TypeVin(int numType, string? nomtype)
         {
             NumType = numType;
             Nomtype = nomtype;
@@ -32,7 +32,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string Nomtype
+        public string? Nomtype
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesTypeVins.Add(new TypeVin((Int32)dr["numType"], (String)dr["nomTypeVin"]));
+                    lesTypeVins.Add(new TypeVin((Int32)dr["numType"], (String?)dr["nomTypeVin"]));
             }
             return lesTypeVins;
         }

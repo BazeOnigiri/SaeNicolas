@@ -84,7 +84,7 @@ namespace Nicolas.Classes
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                     lesDetailCommandes.Add(new DetailCommande((Int32)dr["numCommande"], (Int32)dr["numVin"], 
-                        (Int32)dr["quantite"], (Decimal?)dr["prix"]));
+                        (Int32?)dr["quantite"], (Decimal?)dr["prix"]));
             }
             return lesDetailCommandes;
         }

@@ -14,12 +14,12 @@ namespace Nicolas.Classes
         private int numFournisseur;
         private int numTypeVin;
         private int numAppelation;
-        private string nomvin;
-        private double prixVin;
-        private string descriptif;
-        private int millesime;
+        private string? nomvin;
+        private double? prixVin;
+        private string? descriptif;
+        private int? millesime;
 
-        public Vin(int numVin, int numFournisseur, int numTypeVin, int numAppelation, string nomvin, double prixVin, string descriptif, int millesime)
+        public Vin(int numVin, int numFournisseur, int numTypeVin, int numAppelation, string? nomvin, double? prixVin, string? descriptif, int? millesime)
         {
             NumVin = numVin;
             NumFournisseur = numFournisseur;
@@ -83,7 +83,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string Nomvin
+        public string? Nomvin
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public double PrixVin
+        public double? PrixVin
         {
             get
             {
@@ -109,7 +109,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string Descriptif
+        public string? Descriptif
         {
             get
             {
@@ -122,7 +122,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public int Millesime
+        public int? Millesime
         {
             get
             {
@@ -143,8 +143,8 @@ namespace Nicolas.Classes
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                     lesVins.Add(new Vin((Int32)dr["numVin"], (Int32)dr["nomFournisseur"],
-                   (Int32)dr["numtype1"], (Int32)dr["numtype2"], (String)dr["nomVin"], 
-                   (Double)dr["prixVin"], (String)dr["descriptif"], (Int32)dr["millesime"]));
+                   (Int32)dr["numtype1"], (Int32)dr["numtype2"], (String?)dr["nomVin"], 
+                   (Double?)dr["prixVin"], (String?)dr["descriptif"], (Int32?)dr["millesime"]));
             }
             return lesVins;
         }
