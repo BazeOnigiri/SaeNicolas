@@ -23,6 +23,10 @@
                     Header="Num Employe" />
                 <DataGridTextColumn
                     Width="*"
+                    Binding="{Binding NumCommande, ValidatesOnExceptions=true}"
+                    Header="Num Commande" />
+                <DataGridTextColumn
+                    Width="*"
                     Binding="{Binding NumClient, ValidatesOnExceptions=true}"
                     Header="Num Client"/>
                 <DataGridTextColumn
