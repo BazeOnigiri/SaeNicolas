@@ -46,6 +46,35 @@ namespace Nicolas.UCs
             return "";
         }
 
+        private void dataGridCommandes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGridCommandes.SelectedItem is DataRowView row)
+            {
+                string numCommande = TryGetValue(row, "NumCommande");
+                string nomEmploye = TryGetValue(row, "NomEmploye");
+                string prenomEmploye = TryGetValue(row, "PrenomEmploye");
+                string montant = TryGetValue(row, "PrixTotal");
+                string valide = TryGetValue(row, "Valider");
+                string dateCommande = TryGetValue(row, "DateCommande");
+
+                textBlockDetails.Text = $"ID commande : {numCommande}\n" +
+                                       $"Employé : {prenomEmploye} {nomEmploye}\n" +
+                                       $"Date : {dateCommande}\n" +
+                                       $"Montant : {montant} €\n" +
+                                       $"Validé : {valide}";
+
+                //if (int.TryParse(numCommande, out int numCmd))
+                //    itemsVins.ItemsSource = GetVinsPourCommande(numCmd);
+                //else
+                //    itemsVins.ItemsSource = null;
+            }
+            else
+            {
+                textBlockDetails.Text = "Sélectionnez une commande pour voir les détails.";
+                itemsVins.ItemsSource = null;
+            }
+        }
+
         private void BtnSupprimer_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridCommandes.SelectedItem is DataRowView row)
@@ -73,6 +102,16 @@ namespace Nicolas.UCs
                     }
                 }
             }
+        }
+
+        private void BtnModifier_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Fonctionnalité de modification à implémenter.");
+        }
+
+        private void BtnAjouter_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Fonctionnalité d’ajout à implémenter.");
         }
     }
 }

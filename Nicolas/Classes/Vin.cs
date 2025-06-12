@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +12,19 @@ namespace Nicolas.Classes
     {
         private int numVin;
         private int numFournisseur;
-        private int numtype1;
-        private int numtype2;
+        private int numTypeVin;
+        private int numAppelation;
         private string nomvin;
         private double prixVin;
         private string descriptif;
         private int millesime;
 
-        public Vin(int numVin, int numFournisseur, int numtype1, int numtype2, string nomvin, double prixVin, string descriptif, int millesime)
+        public Vin(int numVin, int numFournisseur, int numTypeVin, int numAppelation, string nomvin, double prixVin, string descriptif, int millesime)
         {
             NumVin = numVin;
             NumFournisseur = numFournisseur;
-            Numtype1 = numtype1;
-            Numtype2 = numtype2;
+            NumTypeVin = numTypeVin;
+            NumAppelation = numAppelation;
             Nomvin = nomvin;
             PrixVin = prixVin;
             Descriptif = descriptif;
@@ -55,29 +57,29 @@ namespace Nicolas.Classes
             }
         }
 
-        public int Numtype1
+        public int NumTypeVin
         {
             get
             {
-                return numtype1;
+                return numTypeVin;
             }
 
             set
             {
-                numtype1 = value;
+                numTypeVin = value;
             }
         }
 
-        public int Numtype2
+        public int NumAppelation
         {
             get
             {
-                return numtype2;
+                return numAppelation;
             }
 
             set
             {
-                numtype2 = value;
+                numAppelation = value;
             }
         }
 
@@ -131,6 +133,20 @@ namespace Nicolas.Classes
             {
                 millesime = value;
             }
+        }
+
+        public List<Vin> FindAll()
+        {
+            List<Vin> lesVins = new List<Vin>();
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from Vin;"))
+            {
+                DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
+                foreach (DataRow dr in dt.Rows)
+                    lesVins.Add(new Vin((Int32)dr["numVin"], (Int32)dr["nomFournisseur"],
+                   (Int32)dr["numtype1"], (Int32)dr["numtype2"], (String)dr["nomVin"], 
+                   (Double)dr["prixVin"], (String)dr["descriptif"], (Int32)dr["millesime"]));
+            }
+            return lesVins;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Nicolas.UCs
                     MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
                     if (mainWindow != null)
                     {
-                        mainWindow.Content = new UCVisualiserCommande();
+                        mainWindow.Content = new UCVisualiserCommandes();
                     }
                 }
                 else
