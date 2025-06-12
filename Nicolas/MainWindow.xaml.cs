@@ -1,4 +1,5 @@
-﻿using Nicolas.UCs;
+﻿using Nicolas.Classes;
+using Nicolas.UCs;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,13 +18,33 @@ namespace Nicolas
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Commande> commandes;
+
         public MainWindow()
         {
             InitializeComponent();
             UCLogin login = new UCLogin();
-            UCVisualiserCommandes visualiserCommande = new UCVisualiserCommandes();
-            UCVisualiserDemandes visualiserDemandes = new UCVisualiserDemandes();
             mainGrid.Children.Add(login);
+
+            /*Commande uneCommande = new Commande(0, 0, null, null, null);
+            commandes = uneCommande.FindAll();
+            foreach (Commande commande in commandes)
+            {
+                if (commande.Valider.HasValue && commande.Valider.Value)
+                {
+                    // Logique pour les commandes validées
+                }
+                else
+                {
+                    uneCommande = commande;
+                    break;
+                }
+            }
+            UCModifierCommande modifierCommande = new UCModifierCommande(uneCommande);*/
+
+           /* UCVisualiserCommandes visualiserCommande = new UCVisualiserCommandes();
+            UCVisualiserDemandes visualiserDemandes = new UCVisualiserDemandes();*/
+
         }
     }
 }

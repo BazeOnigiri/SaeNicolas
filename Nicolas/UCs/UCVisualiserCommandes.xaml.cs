@@ -41,14 +41,78 @@ namespace Nicolas.UCs
         {
             InitializeComponent();
             Commande uneCommande = new Commande(0, 0, null, null, null);
+            Appelation uneAppelation = new Appelation(0, null);
+            TypeVin unTypeVin = new TypeVin(0, null);
+
             commandes = uneCommande.FindAll();
             dataGridCommandes.ItemsSource = commandes;
 
-            
+            ListeAppelations = uneAppelation.FindAll();
+            comboBoxAppelation.Items.Clear();
+            comboBoxAppelation.ItemsSource = ListeAppelations;
+            comboBoxAppelation.DisplayMemberPath = "NomAppelation";
+            comboBoxAppelation.SelectedValuePath = "NumType2";
+
+            ListeTypesVin = unTypeVin.FindAll();
+            comboBoxTypeVin.Items.Clear();
+            comboBoxTypeVin.ItemsSource = ListeTypesVin;
+            comboBoxTypeVin.DisplayMemberPath = "Nomtype";
+            comboBoxTypeVin.SelectedValuePath = "NumType";
+
+            dataGridCommandes.Items.Filter = RechercheMotClef;
+
 
             DataContext = this;
         }
 
+        private bool RechercheMotClef(object obj)
+        {
+            if (string.IsNullOrEmpty(textBoxRecherche.Text))
+                return true;
+
+            var commande = obj as Commande;
+            if (commande == null)
+                return false;
+
+            // Récupérer les détails de la commande
+            var details = new DetailCommande(commande.NumCommande, 0, null, null).FindAll()
+                .Where(d => d.NumCommande == commande.NumCommande).ToList();
+
+            foreach (var detail in details)
+            {
+                // Récupérer le vin associé
+                var vin = new Vin(detail.NumVin, 0, 0, 0, null, null, null, null);
+                vin.Read();
+
+                // Vérifier le nom du vin
+                if (!string.IsNullOrEmpty(vin.Nomvin) &&
+                    vin.Nomvin.StartsWith(textBoxRecherche.Text, StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                // Récupérer le fournisseur associé
+                var fournisseur = new Fournisseur(vin.NumFournisseur, null);
+                fournisseur.Read();
+
+                if (!string.IsNullOrEmpty(fournisseur.NomFournisseur) &&
+                    fournisseur.NomFournisseur.StartsWith(textBoxRecherche.Text, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void textBoxRecherche_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(dataGridCommandes.ItemsSource).Refresh();
+        }
+
+        private void textBoxRecherche_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CollectionViewSource.GetDefaultView(dataGridCommandes.ItemsSource).Refresh();
+            }
+        }
 
         private void btnFiltre_Click(object sender, RoutedEventArgs e)
         {
@@ -69,8 +133,8 @@ namespace Nicolas.UCs
 
             textBoxRecherche.Text = "";
             textBoxMillesime.Text = "";
-            comboBoxTypeVin.SelectedIndex = 0;
-            comboBoxAppelation.SelectedIndex = 0;
+            comboBoxTypeVin.SelectedIndex = -1;
+            comboBoxAppelation.SelectedIndex = -1;
             textBoxPrixMin.Text = "";
             textBoxPrixMax.Text = "";
             datePickerCommande.SelectedDate = null;
@@ -84,17 +148,6 @@ namespace Nicolas.UCs
 
             popupFiltre.IsOpen = false;
             IEnumerable<Commande> filtered = commandes;
-
-            // Recherche sur l'employé
-            if (!string.IsNullOrWhiteSpace(Recherche))
-            {
-                filtered = filtered.Where(c =>
-                {
-                    var employe = new Employe(c.NumEmploye, 0, null, null, null);
-                    employe.Read();
-                    return (employe.Nom + " " + employe.Prenom).IndexOf(Recherche, StringComparison.OrdinalIgnoreCase) >= 0;
-                });
-            }
 
             // Millésime
             if (!string.IsNullOrWhiteSpace(Millesime) && int.TryParse(Millesime, out int millesime))
@@ -265,27 +318,59 @@ namespace Nicolas.UCs
 
         private void BtnModifier_Click(object sender, RoutedEventArgs e)
         {
-            // On récupère la commande sélectionnée dans le DataGrid
-            if (dataGridCommandes.SelectedItem is Commande commande)
+            try
             {
-                // On vérifie que la commande n'est pas validée
-                if (commande.Valider == true)
+                if (dataGridCommandes.SelectedItem is Commande selectedCommande)
                 {
-                    MessageBox.Show("Impossible de modifier une commande validée.");
-                    return;
-                }
+                    var commande = new Commande(selectedCommande.NumCommande, 0, null, null, null);
+                    commande.Read();
 
-                // Navigation vers l'UC de modification
-                var mainWindow = Application.Current.MainWindow as MainWindow;
-                if (mainWindow != null)
+                    if (commande.Valider == true)
+                    {
+                        MessageBox.Show("Impossible de modifier une commande validée.");
+                        return;
+                    }
+
+                    var mainWindow = Application.Current.MainWindow as MainWindow;
+                    if (mainWindow == null)
+                    {
+                        MessageBox.Show("Erreur: MainWindow non trouvée");
+                        return;
+                    }
+
+                    // Vérifier que mainGrid existe
+                    var grid = mainWindow.FindName("mainGrid") as Grid;
+                    if (grid == null)
+                    {
+                        MessageBox.Show("Erreur: mainGrid non trouvé");
+                        return;
+                    }
+
+                    try
+                    {
+                        // Créer et ajouter le nouveau UserControl
+                        var ucModifier = new UCModifierCommande(commande);
+                        
+                        // Forcer le changement sur le thread UI
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            grid.Children.Clear();
+                            grid.Children.Add(ucModifier);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erreur lors de la création/ajout de l'UC: {ex.Message}\n{ex.StackTrace}");
+                    }
+                }
+                else
                 {
-                    mainWindow.mainGrid.Children.Clear();
-                    mainWindow.mainGrid.Children.Add(new UCModifierCommande(commande));
+                    MessageBox.Show("Veuillez sélectionner une commande à modifier.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Veuillez sélectionner une commande à modifier.");
+                MessageBox.Show($"Erreur générale : {ex.Message}\n{ex.StackTrace}");
             }
         }
 

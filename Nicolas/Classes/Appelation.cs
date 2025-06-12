@@ -9,7 +9,7 @@ using Nicolas.Interfaces;
 
 namespace Nicolas.Classes
 {
-    internal class Appelation : ICrude<Appelation>
+    public class Appelation : ICrude<Appelation>
     {
         private int numType;
         private string? nomAppelation;
