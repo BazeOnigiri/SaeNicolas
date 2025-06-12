@@ -14,7 +14,7 @@
             <TextBox x:Name="txtIdentifiant" TextWrapping="Wrap" Width="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,5,0,0"/>
             <Label x:Name="labMdp" Content="Mot de passe" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,10,0,0"/>
             <TextBox x:Name="txtMdp" TextWrapping="Wrap" Width="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0"/>
-            <Button x:Name="butConnexion" Content="Se Connecter" Width="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Background="Black" Foreground="Gainsboro" BorderBrush="Black" Click="butConnexion_Click" />
+            <Button x:Name="butConnexion" Content="Se Connecter" Width="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Background="Black" Foreground="Gainsboro" BorderBrush="Black" Click="butConnexion_Click" IsDefault="True"/>
         </StackPanel>
 
 
