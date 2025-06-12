@@ -24,10 +24,47 @@ namespace Nicolas.UCs
     /// </summary>
     public partial class UCModifierCommande : UserControl
     {
+        private Commande commande;
 
-        public UCModifierCommande()
+        public UCModifierCommande(Commande commande)
         {
             InitializeComponent();
-        }        
+            this.commande = commande;
+            ChargerDetailsCommande();
+            ChargerToutesDemandes();
+        }
+
+        private void ChargerDetailsCommande()
+        {
+            // Affichage des infos de la commande
+            txtNumCommande.Text = commande.NumCommande.ToString();
+            txtDateCommande.Text = commande.DateCommande?.ToString("dd/MM/yyyy") ?? "";
+            txtPrixTotal.Text = commande.PrixTotal?.ToString("F2") + " €";
+
+            // Récupérer les demandes associées à la commande
+            var demandesAssociees = new List<dynamic>();
+            var toutesDemandes = new Demande().FindAll();
+            foreach (var demande in toutesDemandes.Where(d => d.NumCommande == commande.NumCommande))
+            {
+                var vin = new Vin(demande.NumVin, 0, 0, 0, null, null, null, null);
+                vin.Read();
+                demandesAssociees.Add(new
+                {
+                    NumDemande = demande.NumDemande,
+                    NomVin = vin.Nomvin,
+                    Quantite = demande.QuantiteDemande,
+                    PrixVin = vin.PrixVin,
+                    DateDemande = demande.DateDemande?.ToString("dd/MM/yyyy")
+                });
+            }
+            dgDemandesAssociees.ItemsSource = demandesAssociees;
+        }
+
+        private void ChargerToutesDemandes()
+        {
+            // Afficher toutes les demandes dans le DataGrid du bas
+            var toutesDemandes = new Demande().FindAll();
+            dgToutesDemandes.ItemsSource = toutesDemandes;
+        }
     }
 }

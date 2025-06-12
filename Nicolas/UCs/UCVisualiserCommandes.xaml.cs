@@ -206,36 +206,80 @@ namespace Nicolas.UCs
 
         private void BtnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridCommandes.SelectedItem is DataRowView row)
+            if (dataGridCommandes.SelectedItem is Commande commande)
             {
-                string numCommande = TryGetValue(row, "NumCommande");
-                if (int.TryParse(numCommande, out int id))
+                if (MessageBox.Show("Confirmer la suppression de la commande ?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (MessageBox.Show("Confirmer la suppression de la commande ?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    try
                     {
-                        try
+                        // 1. Supprimer les détails de la commande
+                        var details = new DetailCommande(commande.NumCommande, 0, null, null)
+                            .FindAll().Where(d => d.NumCommande == commande.NumCommande).ToList();
+
+                        foreach (var detail in details)
                         {
-                            string sql = "DELETE FROM Commande WHERE NumCommande = @id";
-                            using (NpgsqlCommand cmd = new NpgsqlCommand(sql))
-                            {
-                                cmd.Parameters.AddWithValue("@id", id);
-                                DataAccess.Instance.ExecuteSet(cmd);
-                            }
+                            detail.Delete();
+                        }
+
+                        // 2. Mettre à jour les demandes liées (numCommande à null)
+                        var demandesLiees = new Demande(0, 0, 0, commande.NumCommande, 0, null, null, null)
+                            .FindAll().Where(d => d.NumCommande == commande.NumCommande).ToList();
+
+                        foreach (var demande in demandesLiees)
+                        {
+                            demande.NumCommande = null;
+                            demande.Update();
+                        }
+
+                        // 3. Supprimer la commande
+                        int result = commande.Delete();
+                        if (result > 0)
+                        {
+                            commandes.Remove(commande);
+                            dataGridCommandes.ItemsSource = null;
+                            dataGridCommandes.ItemsSource = commandes;
                             textBlockDetails.Text = "Commande supprimée.";
                             itemsVins.ItemsSource = null;
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            MessageBox.Show("Erreur lors de la suppression : " + ex.Message);
+                            MessageBox.Show("La commande n'a pas pu être supprimée.");
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erreur lors de la suppression : " + ex.Message);
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une commande à supprimer.");
             }
         }
 
         private void BtnModifier_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Fonctionnalité de modification à implémenter.");
+            if (dataGridCommandes.SelectedItem is Commande commande)
+            {
+                if (commande.Valider == true)
+                {
+                    MessageBox.Show("Impossible de modifier une commande validée.");
+                    return;
+                }
+
+                // Navigation vers UCModifierCommande
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+                if (mainWindow != null)
+                {
+                    mainWindow.mainGrid.Children.Clear();
+                    mainWindow.mainGrid.Children.Add(new UCModifierCommande(commande));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une commande à modifier.");
+            }
         }
 
         private void BtnAjouter_Click(object sender, RoutedEventArgs e)
