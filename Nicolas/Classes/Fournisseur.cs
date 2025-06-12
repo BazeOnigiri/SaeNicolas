@@ -20,6 +20,10 @@ namespace Nicolas.Classes
             NomFournisseur = nomFournisseur;
         }
 
+        public Fournisseur()
+        {
+        }
+
         public int NumFournisseur
         {
             get { return numFournisseur; }

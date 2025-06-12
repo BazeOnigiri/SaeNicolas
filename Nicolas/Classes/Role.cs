@@ -20,6 +20,10 @@ namespace Nicolas.Classes
             NomRole = nomRole;
         }
 
+        public Role()
+        {
+        }
+
         public int NumRole
         {
             get { return numRole; }

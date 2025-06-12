@@ -32,6 +32,10 @@ namespace Nicolas.Classes
             Millesime = millesime;
         }
 
+        public Vin()
+        {
+        }
+
         public int NumVin
         {
             get { return numVin; }

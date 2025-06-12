@@ -26,6 +26,10 @@ namespace Nicolas.Classes
             Login = login;
         }
 
+        public Employe()
+        {
+        }
+
         public int NumEmploye
         {
             get { return numEmploye; }

@@ -20,6 +20,10 @@ namespace Nicolas.Classes
             Nomtype = nomtype;
         }
 
+        public TypeVin()
+        {
+        }
+
         public int NumType
         {
             get { return numType; }

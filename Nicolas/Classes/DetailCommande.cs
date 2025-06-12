@@ -24,6 +24,10 @@ namespace Nicolas.Classes
             Prix = prix;
         }
 
+        public DetailCommande()
+        {
+        }
+
         public int NumCommande
         {
             get { return numCommande; }
