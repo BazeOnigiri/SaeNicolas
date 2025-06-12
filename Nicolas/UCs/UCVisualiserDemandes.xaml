@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Nicolas.UCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="dgDemande">
-        <DataGrid d:ItemsSource="{d:Binding LesDemandes}">
+    <Grid>
+        <DataGrid x:Name="dgDemande" d:ItemsSource="{d:Binding LesDemandes}">
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"

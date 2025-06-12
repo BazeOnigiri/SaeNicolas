@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nicolas.Classes
 {
-    
+
     internal class Demande
     {
         private int numDemande;
@@ -20,9 +20,11 @@ namespace Nicolas.Classes
         private int? quantiteDemande;
         private string? accepter;
 
-        
+        public Demande()
+        {
+        }
 
-        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
+        public Demande(int numDemande, int numVin, int numEmploye, int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
         {
             NumDemande = numDemande;
             NumVin = numVin;
@@ -156,8 +158,9 @@ namespace Nicolas.Classes
                     string? etatDemande = dr["etatDemande"] != DBNull.Value ? dr["etatDemande"].ToString() : null;
 
                     lesDemandes.Add(new Demande(numDemande, numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, etatDemande));
+                }
+                return lesDemandes;
             }
-            return lesDemandes;
         }
     }
 }
