@@ -8,76 +8,132 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Infos commande -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Commande n°" FontWeight="Bold"/>
-            <TextBlock Text="{Binding NumCommande}" Margin="5,0,20,0"/>
-            <TextBlock Text="Date : " FontWeight="Bold"/>
-            <TextBlock Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}" Margin="5,0,20,0"/>
-            <TextBlock Text="Prix total : " FontWeight="Bold"/>
-            <TextBlock Text="{Binding PrixTotal, StringFormat='{}{0:F2} €'}" Margin="5,0,20,0"/>
-        </StackPanel>
+        <!-- En-tête avec les informations de la commande -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Détails demandes associées -->
-        <TextBlock Text="Demandes associées à la commande :" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,5"/>
-        <DataGrid Grid.Row="2" x:Name="dgDemandesAssociees" 
-                  ItemsSource="{Binding DemandesAssociees}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True" 
-                  SelectionMode="Single"
-                  Margin="0,0,0,10"
-                  Height="120">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
-                <DataGridTextColumn Header="NomVin" Binding="{Binding NomVin}" Width="*"/>
-                <DataGridTextColumn Header="Quantité" Binding="{Binding Quantite}" Width="*"/>
-                <DataGridTextColumn Header="Prix du vin" Binding="{Binding PrixVin}" Width="*"/>
-                <DataGridTextColumn Header="Date de la demande" Binding="{Binding DateDemande}" Width="*"/>
-                <DataGridTemplateColumn Header="Retirer">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Retirer" Command="{Binding DataContext.CmdRetirerDemande, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            <!-- État initial -->
+            <Border Grid.Column="0" BorderBrush="#DDDDDD" BorderThickness="1" Padding="10" Background="#F9F9F9" Margin="0,0,5,0">
+                <StackPanel>
+                    <TextBlock Text="État initial" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,20,0">
+                            <TextBlock Text="N° " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding NumeroCommande}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,20,0">
+                            <TextBlock Text="Date : " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                            <TextBlock Text="Total : " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding PrixTotal, StringFormat='{}{0:N2} €'}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
 
-        <!-- Toutes les demandes -->
-        <TextBlock Text="Toutes les demandes :" FontWeight="Bold" Grid.Row="3" Margin="0,0,0,5"/>
-        <DataGrid Grid.Row="3" x:Name="dgToutesDemandes"
-                  ItemsSource="{Binding ToutesDemandes}"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  Margin="0,25,0,10"
-                  Height="120">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
-                <DataGridTextColumn Header="NomVin" Binding="{Binding NomVin}" Width="*"/>
-                <DataGridTextColumn Header="Quantité" Binding="{Binding QuantiteDemande}" Width="*"/>
-                <DataGridTextColumn Header="DateDemande" Binding="{Binding DateDemande, StringFormat='{}{0:dd/MM/yyyy}'}" Width="*"/>
-                <DataGridTemplateColumn Header="Ajouter">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Ajouter" Command="{Binding DataContext.CmdAjouterDemande, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+            <!-- État après modifications -->
+            <Border Grid.Column="1" BorderBrush="#E3F2FD" BorderThickness="1" Padding="10" Background="#F5F9FF" Margin="5,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Après modifications" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,20,0">
+                            <TextBlock Text="Nouveau total : " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding NouveauTotal, StringFormat='{}{0:N2} €'}" Foreground="#1976D2"/>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="{Binding DifferenceMessage}" Foreground="#1976D2" 
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
 
-        <!-- Boutons -->
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Valider" Width="100" Margin="5" Command="{Binding CmdValider}"/>
-            <Button Content="Supprimer la commande" Width="150" Margin="5" Command="{Binding CmdSupprimer}"/>
-            <Button Content="Retour" Width="100" Margin="5" Command="{Binding CmdRetour}"/>
+        <!-- Zone principale avec les deux DataGrids -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Demandes associées à la commande -->
+            <DockPanel Grid.Column="0" Margin="0,0,5,0">
+                <TextBlock DockPanel.Dock="Top" Text="Demandes associées" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <DataGrid x:Name="dgDemandesAssociees" 
+                         ItemsSource="{Binding DemandesAssociees}"
+                         AutoGenerateColumns="False"
+                         IsReadOnly="True"
+                         VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="N°" Binding="{Binding NumeroDemande}" Width="50"/>
+                        <DataGridTextColumn Header="Vin" Binding="{Binding NomVin}" Width="*"/>
+                        <DataGridTextColumn Header="Qté" Binding="{Binding QuantiteDemande}" Width="50"/>
+                        <DataGridTextColumn Header="Prix" Binding="{Binding PrixVin, StringFormat='{}{0:N2} €'}" Width="70"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding DateDemande}" Width="80"/>
+                        <DataGridTemplateColumn Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="×" Click="BtnRetirerDemande_Click" 
+                                            FontWeight="Bold"
+                                            Width="25" Height="25"
+                                            ToolTip="Retirer"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <!-- Liste de toutes les demandes -->
+            <DockPanel Grid.Column="1" Margin="5,0,0,0">
+                <TextBlock DockPanel.Dock="Top" Text="Demandes disponibles" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <DataGrid x:Name="dgToutesDemandes"
+                         ItemsSource="{Binding ToutesLesDemandes}"
+                         AutoGenerateColumns="False"
+                         IsReadOnly="True"
+                         VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="N°" Binding="{Binding NumeroDemande}" Width="50"/>
+                        <DataGridTextColumn Header="Vin" Binding="{Binding NomVin}" Width="*"/>
+                        <DataGridTextColumn Header="Qté" Binding="{Binding QuantiteDemande}" Width="50"/>
+                        <DataGridTextColumn Header="Prix" Binding="{Binding PrixVin, StringFormat='{}{0:N2} €'}" Width="70"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding DateDemande}" Width="80"/>
+                        <DataGridTemplateColumn Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="+" Click="BtnAjouterDemande_Click"
+                                            FontWeight="Bold"
+                                            Width="25" Height="25"
+                                            ToolTip="Ajouter"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+
+        <!-- Boutons d'action -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Valider" Click="BtnValider_Click" Width="80" Margin="5,0"/>
+            <Button Content="Supprimer" Click="BtnSupprimer_Click" Width="80" Margin="5,0"/>
+            <Button Content="Retour" Click="BtnRetour_Click" Width="80" Margin="5,0,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

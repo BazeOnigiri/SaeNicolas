@@ -318,27 +318,59 @@ namespace Nicolas.UCs
 
         private void BtnModifier_Click(object sender, RoutedEventArgs e)
         {
-            // On récupère la commande sélectionnée dans le DataGrid
-            if (dataGridCommandes.SelectedItem is Commande commande)
+            try
             {
-                // On vérifie que la commande n'est pas validée
-                if (commande.Valider == true)
+                if (dataGridCommandes.SelectedItem is Commande selectedCommande)
                 {
-                    MessageBox.Show("Impossible de modifier une commande validée.");
-                    return;
-                }
+                    var commande = new Commande(selectedCommande.NumCommande, 0, null, null, null);
+                    commande.Read();
 
-                // Navigation vers l'UC de modification
-                var mainWindow = Application.Current.MainWindow as MainWindow;
-                if (mainWindow != null)
+                    if (commande.Valider == true)
+                    {
+                        MessageBox.Show("Impossible de modifier une commande validée.");
+                        return;
+                    }
+
+                    var mainWindow = Application.Current.MainWindow as MainWindow;
+                    if (mainWindow == null)
+                    {
+                        MessageBox.Show("Erreur: MainWindow non trouvée");
+                        return;
+                    }
+
+                    // Vérifier que mainGrid existe
+                    var grid = mainWindow.FindName("mainGrid") as Grid;
+                    if (grid == null)
+                    {
+                        MessageBox.Show("Erreur: mainGrid non trouvé");
+                        return;
+                    }
+
+                    try
+                    {
+                        // Créer et ajouter le nouveau UserControl
+                        var ucModifier = new UCModifierCommande(commande);
+                        
+                        // Forcer le changement sur le thread UI
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            grid.Children.Clear();
+                            grid.Children.Add(ucModifier);
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erreur lors de la création/ajout de l'UC: {ex.Message}\n{ex.StackTrace}");
+                    }
+                }
+                else
                 {
-                    mainWindow.mainGrid.Children.Clear();
-                    mainWindow.mainGrid.Children.Add(new UCModifierCommande(commande));
+                    MessageBox.Show("Veuillez sélectionner une commande à modifier.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Veuillez sélectionner une commande à modifier.");
+                MessageBox.Show($"Erreur générale : {ex.Message}\n{ex.StackTrace}");
             }
         }
 

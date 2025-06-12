@@ -29,8 +29,9 @@ namespace Nicolas.UCs
 
         private void butConnexion_Click(object sender, RoutedEventArgs e)
         {
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand($"SELECT EXISTS (SELECT 1 FROM employe WHERE login = '{txtIdentifiant.Text}')"))
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT EXISTS (SELECT 1 FROM employe WHERE login = @login)"))
             {
+                cmdSelect.Parameters.AddWithValue("login", txtIdentifiant.Text);
                 object login = DataAccess.Instance.ExecuteSelectUneValeur(cmdSelect);
                 bool res = Convert.ToBoolean(login);
                 if (res == true)
@@ -38,7 +39,8 @@ namespace Nicolas.UCs
                     MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
                     if (mainWindow != null)
                     {
-                        mainWindow.Content = new UCVisualiserCommandes();
+                        mainWindow.mainGrid.Children.Clear();
+                        mainWindow.mainGrid.Children.Add(new UCVisualiserCommandes());
                     }
                 }
                 else
