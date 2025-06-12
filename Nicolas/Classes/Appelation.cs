@@ -11,9 +11,9 @@ namespace Nicolas.Classes
     internal class Appelation
     {
         private int numType;
-        private string nomAppelation;
+        private string? nomAppelation;
 
-        public Appelation(int numType, string nomAppelation)
+        public Appelation(int numType, string? nomAppelation)
         {
             NumType = numType;
             NomAppelation = nomAppelation;
@@ -32,7 +32,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string NomAppelation
+        public string? NomAppelation
         {
             get
             {
@@ -53,7 +53,7 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesAppelations.Add(new Appelation((Int32)dr["numType2"], (String)dr["nomAppelation"]));
+                    lesAppelations.Add(new Appelation((Int32)dr["numType2"], (String?)dr["nomAppelation"]));
             }
             return lesAppelations;
         }

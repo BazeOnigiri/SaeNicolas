@@ -11,9 +11,9 @@ namespace Nicolas.Classes
     internal class Client
     {
         private int numClient;
-        private string nomClient;
-        private string prenomClient;
-        private string mailClient;
+        private string? nomClient;
+        private string? prenomClient;
+        private string? mailClient;
 
         public int NumClient
         {
@@ -28,7 +28,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string NomClient
+        public string? NomClient
         {
             get
             {
@@ -41,7 +41,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string PrenomClient
+        public string? PrenomClient
         {
             get
             {
@@ -54,7 +54,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string MailClient
+        public string? MailClient
         {
             get
             {
@@ -68,7 +68,7 @@ namespace Nicolas.Classes
         }
         public Client() { }
 
-        public Client(int numClient, string nomClient, string prenomClient, string mailClient)
+        public Client(int numClient, string? nomClient, string? prenomClient, string? mailClient)
         {
             NumClient = numClient;
             NomClient = nomClient;
@@ -83,8 +83,8 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesClients.Add(new Client((Int32)dr["numClient"], (String)dr["nomClient"],
-                   (String)dr["prenomClient"], (string)dr["mailClient"]));
+                    lesClients.Add(new Client((Int32)dr["numClient"], (String?)dr["nomClient"],
+                   (String?)dr["prenomClient"], (String?)dr["mailClient"]));
             }
             return lesClients;
         }

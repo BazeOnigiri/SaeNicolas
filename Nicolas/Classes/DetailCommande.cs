@@ -79,12 +79,12 @@ namespace Nicolas.Classes
         public List<DetailCommande> FindAll()
         {
             List<DetailCommande> lesDetailCommandes = new List<DetailCommande>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from Commande;"))
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from DetailCommande;"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                     lesDetailCommandes.Add(new DetailCommande((Int32)dr["numCommande"], (Int32)dr["numVin"], 
-                        (Int32)dr["quantite"], (Decimal?)dr["prix"]));
+                        (Int32?)dr["quantite"], (Decimal?)dr["prix"]));
             }
             return lesDetailCommandes;
         }

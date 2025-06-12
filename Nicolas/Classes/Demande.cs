@@ -14,13 +14,13 @@ namespace Nicolas.Classes
         private int numDemande;
         private int numVin;
         private int numEmploye;
-        private int numCommande;
+        private int? numCommande;
         private int numClient;
         private DateTime? dateDemande;
-        private int quantiteDemande;
-        private string etatDemande;
+        private int? quantiteDemande;
+        private string? etatDemande;
 
-        public Demande(int numDemande, int numVin, int numEmploye,int numCommande, int numClient, DateTime? dateDemande, int quantiteDemande, string etatDemande)
+        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? etatDemande)
         {
             NumDemande = numDemande;
             NumVin = numVin;
@@ -97,7 +97,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public int QuantiteDemande
+        public int? QuantiteDemande
         {
             get
             {
@@ -110,7 +110,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public string EtatDemande
+        public string? EtatDemande
         {
             get
             {
@@ -123,7 +123,7 @@ namespace Nicolas.Classes
             }
         }
 
-        public int NumCommande
+        public int? NumCommande
         {
             get
             {
@@ -144,7 +144,7 @@ namespace Nicolas.Classes
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                     lesDemandes.Add(new Demande((Int32)dr["numDemande"], (Int32)dr["numVin"],
-                   (Int32)dr["numEmploye"], (Int32)dr["numCommande"], (Int32)dr["numClient"], (DateTime?)dr["dateDemande"], (Int32)dr["quantiteDemande"], (String)dr["etatDemande"]));
+                   (Int32)dr["numEmploye"], (Int32?)dr["numCommande"], (Int32)dr["numClient"], (DateTime?)dr["dateDemande"], (Int32?)dr["quantiteDemande"], (String?)dr["etatDemande"]));
             }
             return lesDemandes;
         }
