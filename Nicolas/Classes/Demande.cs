@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nicolas.Classes
 {
-    internal class Demande : ICrude<Demande>
+    public class Demande : ICrude<Demande>
     {
         private int numDemande;
         private int numVin;

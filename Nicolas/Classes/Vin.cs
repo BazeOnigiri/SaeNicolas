@@ -9,7 +9,7 @@ using Nicolas.Interfaces;
 
 namespace Nicolas.Classes
 {
-    internal class Vin : ICrude<Vin>
+    public class Vin : ICrude<Vin>
     {
         private int numVin;
         private int numFournisseur;

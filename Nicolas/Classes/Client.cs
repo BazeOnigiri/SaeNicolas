@@ -9,7 +9,7 @@ using Nicolas.Interfaces;
 
 namespace Nicolas.Classes
 {
-    internal class Client : ICrude<Client>
+    public class Client : ICrude<Client>
     {
         private int numClient;
         private string? nomClient;

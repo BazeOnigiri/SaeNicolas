@@ -9,7 +9,7 @@ using Nicolas.Interfaces;
 
 namespace Nicolas.Classes
 {
-    internal class TypeVin : ICrude<TypeVin>
+    public class TypeVin : ICrude<TypeVin>
     {
         private int numType;
         private string? nomtype;
@@ -39,7 +39,7 @@ namespace Nicolas.Classes
         public int Create()
         {
             int nb = 0;
-            using (var cmdInsert = new NpgsqlCommand("insert into TypeVin (nomTypeVin) values (@nomtype) RETURNING numType"))
+            using (var cmdInsert = new NpgsqlCommand("insert into TypeVin (nomType) values (@nomtype) RETURNING numType"))
             {
                 cmdInsert.Parameters.AddWithValue("nomtype", (object?)this.Nomtype ?? DBNull.Value);
                 nb = DataAccess.Instance.ExecuteInsert(cmdInsert);
@@ -56,14 +56,14 @@ namespace Nicolas.Classes
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 if (dt.Rows.Count > 0)
                 {
-                    this.Nomtype = dt.Rows[0]["nomTypeVin"] != DBNull.Value ? dt.Rows[0]["nomTypeVin"].ToString() : null;
+                    this.Nomtype = dt.Rows[0]["nomType"] != DBNull.Value ? dt.Rows[0]["nomType"].ToString() : null;
                 }
             }
         }
 
         public int Update()
         {
-            using (var cmdUpdate = new NpgsqlCommand("update TypeVin set nomTypeVin = @nomtype where numType = @numType;"))
+            using (var cmdUpdate = new NpgsqlCommand("update TypeVin set nomType = @nomtype where numType = @numType;"))
             {
                 cmdUpdate.Parameters.AddWithValue("nomtype", (object?)this.Nomtype ?? DBNull.Value);
                 cmdUpdate.Parameters.AddWithValue("numType", this.NumType);
@@ -89,7 +89,7 @@ namespace Nicolas.Classes
                 foreach (DataRow dr in dt.Rows)
                 {
                     int numType = dr["numType"] != DBNull.Value ? Convert.ToInt32(dr["numType"]) : 0;
-                    string? nomtype = dr["nomTypeVin"] != DBNull.Value ? dr["nomTypeVin"].ToString() : null;
+                    string? nomtype = dr["nomType"] != DBNull.Value ? dr["nomType"].ToString() : null;
 
                     lesTypeVins.Add(new TypeVin(numType, nomtype));
                 }
