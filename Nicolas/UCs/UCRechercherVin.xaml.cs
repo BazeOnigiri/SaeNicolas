@@ -134,11 +134,11 @@ namespace Nicolas.UCs
             // Filtre par prix
             if (decimal.TryParse(PrixMin, out decimal prixMin))
             {
-                vinsFiltered = vinsFiltered.Where(v => v.Prix >= prixMin);
+                vinsFiltered = vinsFiltered.Where(v => (decimal) v.PrixVin >= prixMin);
             }
             if (decimal.TryParse(PrixMax, out decimal prixMax))
             {
-                vinsFiltered = vinsFiltered.Where(v => v.Prix <= prixMax);
+                vinsFiltered = vinsFiltered.Where(v => (decimal)v.PrixVin <= prixMax);
             }
 
             dataGridVins.ItemsSource = vinsFiltered.ToList();
@@ -160,8 +160,7 @@ namespace Nicolas.UCs
                 textBlockDetails.Text =
                     $"Nom : {vin.Nomvin}\n" +
                     $"Millésime : {vin.Millesime}\n" +
-                    $"Prix : {vin.Prix} €\n" +
-                    $"Stock : {vin.Stock}\n" +
+                    $"Prix : {vin.PrixVin} €\n" +
                     $"Appellation : {appelation.NomAppelation}\n" +
                     $"Type : {typeVin.Nomtype}\n" +
                     $"Fournisseur : {fournisseur.NomFournisseur}";
