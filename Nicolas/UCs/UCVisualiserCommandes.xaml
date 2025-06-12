@@ -26,7 +26,7 @@
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="455">
                 
                 <TextBox x:Name="textBoxRecherche" Width="250" Height="28" Margin="0,0,10,0" VerticalAlignment="Center"
-                     Text="{Binding Recherche, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Recherche, UpdateSourceTrigger=PropertyChanged}" KeyDown="textBoxRecherche_KeyDown"/>
                 <Button x:Name="btnFiltre" Content="Filtre" Width="80" Height="28" Click="btnFiltre_Click"/>
                 <Button x:Name="btnClearFiltres" Content="Effacer filtres" Width="110" Height="28" Click="btnClearFiltres_Click" Margin="5,0,0,0" IsEnabled="False"/>
 
