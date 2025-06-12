@@ -79,7 +79,7 @@ namespace Nicolas.Classes
         public List<DetailCommande> FindAll()
         {
             List<DetailCommande> lesDetailCommandes = new List<DetailCommande>();
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from Commande;"))
+            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from DetailCommande;"))
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
