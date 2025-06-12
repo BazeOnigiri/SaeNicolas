@@ -28,6 +28,7 @@ namespace Nicolas.Windows
         public FicheClient()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void butValider_Click(object sender, RoutedEventArgs e)
