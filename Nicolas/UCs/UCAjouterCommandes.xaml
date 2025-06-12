@@ -6,7 +6,109 @@
              xmlns:local="clr-namespace:Nicolas.UCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- En-tête -->
+        <TextBlock Text="Nouvelle Commande" 
+             FontSize="24" 
+             Margin="0,0,0,20" Foreground="White"/>
+
+        <!-- Informations de base -->
+        <StackPanel Grid.Row="1" 
+                Orientation="Horizontal" 
+                Margin="0,0,0,20">
+            <TextBlock Text="Date de commande : " 
+                 VerticalAlignment="Center" Foreground="White"/>
+            <DatePicker SelectedDate="{Binding DateCommande}"
+                  Width="120"
+                  Margin="5,0,20,0"/>
+            <TextBlock Text="Prix total : " 
+                 VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Text="{Binding PrixTotal, StringFormat={}{0:C2}}"
+                 VerticalAlignment="Center"
+                 Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <!-- Demandes -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Demandes disponibles -->
+            <DockPanel Grid.Column="0">
+                <TextBlock Text="Demandes disponibles"
+                     DockPanel.Dock="Top"
+                     FontWeight="Bold"
+                     Margin="0,0,0,5" Foreground="White"/>
+                <DataGrid x:Name="dgDemandesDisponibles"
+                    ItemsSource="{Binding DemandesDisponibles}"
+                    AutoGenerateColumns="False"
+                    SelectionMode="Single"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="N° Demande" Binding="{Binding NumeroDemande}"/>
+                        <DataGridTextColumn Width="*" Header="Vin" Binding="{Binding NomVin}"/>
+                        <DataGridTextColumn Width="*" Header="Quantité" Binding="{Binding QuantiteDemande}"/>
+                        <DataGridTextColumn Width="*" Header="Prix" Binding="{Binding PrixVin, StringFormat={}{0:C2}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <!-- Boutons Ajouter/Retirer -->
+            <StackPanel Grid.Column="1" 
+                    VerticalAlignment="Center"
+                    Margin="10">
+                <Button Content="&gt;&gt;"
+                    Margin="0,0,0,10"
+                    Width="40"
+                    Click="BtnAjouter_Click"/>
+                <Button Content="&lt;&lt;"
+                    Width="40"
+                    Click="BtnRetirer_Click"/>
+            </StackPanel>
+
+            <!-- Demandes sélectionnées -->
+            <DockPanel Grid.Column="2">
+                <TextBlock Text="Demandes sélectionnées"
+                     DockPanel.Dock="Top"
+                     FontWeight="Bold"
+                     Margin="0,0,0,5" Foreground="White"/>
+                <DataGrid x:Name="dgDemandesSelectionnees"
+                    ItemsSource="{Binding DemandesSelectionnees}"
+                    AutoGenerateColumns="False"
+                    SelectionMode="Single"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="N° Demande" Binding="{Binding NumeroDemande}"/>
+                        <DataGridTextColumn Width="*" Header="Vin" Binding="{Binding NomVin}"/>
+                        <DataGridTextColumn Width="*" Header="Quantité" Binding="{Binding QuantiteDemande}"/>
+                        <DataGridTextColumn Width="*" Header="Prix" Binding="{Binding PrixVin, StringFormat={}{0:C2}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+
+        <!-- Boutons -->
+        <StackPanel Grid.Row="3"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                Margin="0,20,0,0">
+            <Button Content="Créer la commande"
+                Width="150"
+                Margin="0,0,10,0"
+                Click="BtnCreer_Click"/>
+            <Button Content="Annuler"
+                Width="100"
+                Click="BtnAnnuler_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -376,7 +376,12 @@ namespace Nicolas.UCs
 
         private void BtnAjouter_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Fonctionnalité d’ajout à implémenter.");
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.mainGrid.Children.Clear();
+                mainWindow.mainGrid.Children.Add(new UCAjouterCommandes());
+            }
         }
     }
 }
