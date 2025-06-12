@@ -18,9 +18,9 @@ namespace Nicolas.Classes
         private int numClient;
         private DateTime? dateDemande;
         private int? quantiteDemande;
-        private string? etatDemande;
+        private string? accepter;
 
-        public Demande(int numDemande, int numVin, int numEmploye, int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? etatDemande)
+        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
         {
             NumDemande = numDemande;
             NumVin = numVin;
@@ -29,7 +29,7 @@ namespace Nicolas.Classes
             NumClient = numClient;
             DateDemande = dateDemande;
             QuantiteDemande = quantiteDemande;
-            EtatDemande = etatDemande;
+            Accepter = accepter;
         }
 
         public int NumDemande
@@ -68,10 +68,10 @@ namespace Nicolas.Classes
             set { quantiteDemande = value; }
         }
 
-        public string? EtatDemande
+        public string? Accepter
         {
-            get { return etatDemande; }
-            set { etatDemande = value; }
+            get { return accepter; }
+            set { accepter = value; }
         }
 
         public int? NumCommande
@@ -83,7 +83,7 @@ namespace Nicolas.Classes
         public int Create()
         {
             int nb = 0;
-            using (var cmdInsert = new NpgsqlCommand("insert into Demande (numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, etatDemande) values (@numVin, @numEmploye, @numCommande, @numClient, @dateDemande, @quantiteDemande, @etatDemande) RETURNING numDemande"))
+            using (var cmdInsert = new NpgsqlCommand("insert into Demande (numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, accepter) values (@numVin, @numEmploye, @numCommande, @numClient, @dateDemande, @quantiteDemande, @accepter) RETURNING numDemande"))
             {
                 cmdInsert.Parameters.AddWithValue("numVin", this.NumVin);
                 cmdInsert.Parameters.AddWithValue("numEmploye", this.NumEmploye);
@@ -91,7 +91,7 @@ namespace Nicolas.Classes
                 cmdInsert.Parameters.AddWithValue("numClient", this.NumClient);
                 cmdInsert.Parameters.AddWithValue("dateDemande", (object?)this.DateDemande ?? DBNull.Value);
                 cmdInsert.Parameters.AddWithValue("quantiteDemande", (object?)this.QuantiteDemande ?? DBNull.Value);
-                cmdInsert.Parameters.AddWithValue("etatDemande", (object?)this.EtatDemande ?? DBNull.Value);
+                cmdInsert.Parameters.AddWithValue("accepter", (object?)this.Accepter ?? DBNull.Value);
                 nb = DataAccess.Instance.ExecuteInsert(cmdInsert);
             }
             this.NumDemande = nb;
@@ -112,26 +112,11 @@ namespace Nicolas.Classes
                     this.NumClient = dt.Rows[0]["numClient"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numClient"]) : 0;
                     this.DateDemande = dt.Rows[0]["dateDemande"] != DBNull.Value ? Convert.ToDateTime(dt.Rows[0]["dateDemande"]) : (DateTime?)null;
                     this.QuantiteDemande = dt.Rows[0]["quantiteDemande"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["quantiteDemande"]) : (int?)null;
-                    this.EtatDemande = dt.Rows[0]["etatDemande"] != DBNull.Value ? dt.Rows[0]["etatDemande"].ToString() : null;
+                    this.Accepter = dt.Rows[0]["accepter"] != DBNull.Value ? dt.Rows[0]["accepter"].ToString() : null;
                 }
             }
         }
 
-        public int Update()
-        {
-            using (var cmdUpdate = new NpgsqlCommand("update Demande set numVin = @numVin, numEmploye = @numEmploye, numCommande = @numCommande, numClient = @numClient, dateDemande = @dateDemande, quantiteDemande = @quantiteDemande, etatDemande = @etatDemande where numDemande = @numDemande;"))
-            {
-                cmdUpdate.Parameters.AddWithValue("numVin", this.NumVin);
-                cmdUpdate.Parameters.AddWithValue("numEmploye", this.NumEmploye);
-                cmdUpdate.Parameters.AddWithValue("numCommande", (object?)this.NumCommande ?? DBNull.Value);
-                cmdUpdate.Parameters.AddWithValue("numClient", this.NumClient);
-                cmdUpdate.Parameters.AddWithValue("dateDemande", (object?)this.DateDemande ?? DBNull.Value);
-                cmdUpdate.Parameters.AddWithValue("quantiteDemande", (object?)this.QuantiteDemande ?? DBNull.Value);
-                cmdUpdate.Parameters.AddWithValue("etatDemande", (object?)this.EtatDemande ?? DBNull.Value);
-                cmdUpdate.Parameters.AddWithValue("numDemande", this.NumDemande);
-                return DataAccess.Instance.ExecuteSet(cmdUpdate);
-            }
-        }
 
         public int Delete()
         {
@@ -157,18 +142,35 @@ namespace Nicolas.Classes
                     int numClient = dr["numClient"] != DBNull.Value ? Convert.ToInt32(dr["numClient"]) : 0;
                     DateTime? dateDemande = dr["dateDemande"] != DBNull.Value ? Convert.ToDateTime(dr["dateDemande"]) : (DateTime?)null;
                     int? quantiteDemande = dr["quantiteDemande"] != DBNull.Value ? Convert.ToInt32(dr["quantiteDemande"]) : (int?)null;
-                    string? etatDemande = dr["etatDemande"] != DBNull.Value ? dr["etatDemande"].ToString() : null;
+                    string? accepter = dr["accepter"] != DBNull.Value ? dr["accepter"].ToString() : null;
 
-                    lesDemandes.Add(new Demande(numDemande, numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, etatDemande));
+                    lesDemandes.Add(new Demande(numDemande, numVin, numEmploye, numCommande, numClient, dateDemande, quantiteDemande, accepter));
                 }
+                return lesDemandes;
             }
-            return lesDemandes;
         }
 
         public List<Demande> FindBySelection(string criteres)
         {
             // À adapter selon la logique de recherche souhaitée
             throw new NotImplementedException();
+        }
+
+        public int Update()
+        {
+            using (var cmdUpdate = new NpgsqlCommand(
+        "update Demande set numVin = @numVin, numEmploye = @numEmploye, numCommande = @numCommande, numClient = @numClient, dateDemande = @dateDemande, quantiteDemande = @quantiteDemande, accepter = @accepter where numDemande = @numDemande;"))
+            {
+                cmdUpdate.Parameters.AddWithValue("numVin", this.NumVin);
+                cmdUpdate.Parameters.AddWithValue("numEmploye", this.NumEmploye);
+                cmdUpdate.Parameters.AddWithValue("numCommande", (object?)this.NumCommande ?? DBNull.Value);
+                cmdUpdate.Parameters.AddWithValue("numClient", this.NumClient);
+                cmdUpdate.Parameters.AddWithValue("dateDemande", (object?)this.DateDemande ?? DBNull.Value);
+                cmdUpdate.Parameters.AddWithValue("quantiteDemande", (object?)this.QuantiteDemande ?? DBNull.Value);
+                cmdUpdate.Parameters.AddWithValue("accepter", (object?)this.Accepter ?? DBNull.Value);
+                cmdUpdate.Parameters.AddWithValue("numDemande", this.NumDemande);
+                return DataAccess.Instance.ExecuteSet(cmdUpdate);
+            }
         }
     }
 }

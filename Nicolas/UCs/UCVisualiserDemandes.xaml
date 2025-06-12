@@ -19,8 +19,24 @@
                     Header="Num Vin" />
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding Poids, ValidatesOnExceptions=true}"
-                    Header="Poids (kg)" />
+                    Binding="{Binding NumEmploye, ValidatesOnExceptions=true}"
+                    Header="Num Employe" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding NumClient, ValidatesOnExceptions=true}"
+                    Header="Num Client"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DateDemande, ValidatesOnExceptions=true}"
+                    Header="Date Demande"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding QuantiteDemande, ValidatesOnExceptions=true}"
+                    Header="Quantite Demande"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Accepter, ValidatesOnExceptions=true}"
+                    Header="Accepter"/>
             </DataGrid.Columns>
         </DataGrid>
 
