@@ -55,8 +55,7 @@ namespace Nicolas.Classes
             get { return prixTotal; }
             set
             {
-                if (value != null && value < 0)
-                    prixTotal = Math.Round((decimal)value, 2);
+                prixTotal = value;
             }
         }
 
