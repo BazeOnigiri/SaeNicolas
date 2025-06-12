@@ -53,7 +53,7 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesAppelations.Add(new Appelation((Int32)dr["numAppelation"], (String)dr["nomAppelation"]));
+                    lesAppelations.Add(new Appelation((Int32)dr["numType2"], (String)dr["nomAppelation"]));
             }
             return lesAppelations;
         }
