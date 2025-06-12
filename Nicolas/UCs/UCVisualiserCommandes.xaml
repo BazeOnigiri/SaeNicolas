@@ -23,18 +23,23 @@
             <Label Content="Commandes" FontSize="24" HorizontalAlignment="Center" Grid.Row="0" Margin="0,0,0,10" Width="142"/>
 
             <!-- Barre de recherche et bouton filtre -->
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="340">
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="455">
+                
                 <TextBox x:Name="textBoxRecherche" Width="250" Height="28" Margin="0,0,10,0" VerticalAlignment="Center"
-                     Text="{Binding TextRecherche, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Recherche, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="btnFiltre" Content="Filtre" Width="80" Height="28" Click="btnFiltre_Click"/>
-                <Popup x:Name="popupFiltre" PlacementTarget="{Binding ElementName=btnFiltre}" Placement="Bottom" StaysOpen="False">
-                    <Border Background="White" BorderBrush="Gray" BorderThickness="1" Padding="15" CornerRadius="5">
-                        <StackPanel Width="250">
-                            <TextBlock Text="Année :" Margin="0,0,0,5"/>
-                            <TextBox Width="80" Margin="0,0,0,10" Text="{Binding Annee, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button x:Name="btnClearFiltres" Content="Effacer filtres" Width="110" Height="28" Click="btnClearFiltres_Click" Margin="5,0,0,0" IsEnabled="False"/>
 
-                            <TextBlock Text="Type 1 :" Margin="0,0,0,5"/>
-                            <ComboBox Width="120" Margin="0,0,0,10" SelectedValue="{Binding Type1, UpdateSourceTrigger=PropertyChanged}">
+                <Popup x:Name="popupFiltre" PlacementTarget="{Binding ElementName=btnFiltre}" Placement="Bottom" StaysOpen="False">
+                    
+                    <Border Background="White" BorderBrush="Gray" BorderThickness="1" Padding="15" CornerRadius="5">
+                        
+                        <StackPanel Width="250">
+                            <TextBlock Text="Milésime :" Margin="0,0,0,5"/>
+                            <TextBox x:Name="textBoxMillesime" Width="80" Margin="0,0,0,10" Text="{Binding Millesime, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Text="Type 1e vin :" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="comboBoxTypeVin" Width="120" Margin="0,0,0,10" SelectedValue="{Binding TypeVin, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBoxItem Content=""/>
                                 <ComboBoxItem Content="blanc"/>
                                 <ComboBoxItem Content="rouge"/>
@@ -43,8 +48,8 @@
                                 <ComboBoxItem Content="moelleux"/>
                             </ComboBox>
 
-                            <TextBlock Text="Type 2 :" Margin="0,0,0,5"/>
-                            <ComboBox Width="120" Margin="0,0,0,10" SelectedValue="{Binding Type2, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="Appelation :" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="comboBoxAppelation" Width="120" Margin="0,0,0,10" SelectedValue="{Binding Appelation, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBoxItem Content=""/>
                                 <ComboBoxItem Content="blanc"/>
                                 <ComboBoxItem Content="rouge"/>
@@ -55,19 +60,22 @@
 
                             <TextBlock Text="Prix :" Margin="0,0,0,5"/>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                <TextBox Width="50" Margin="0,0,5,0" Text="{Binding PrixMin, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox x:Name="textBoxPrixMin" Width="50" Margin="0,0,5,0" Text="{Binding PrixMin, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Text="à" VerticalAlignment="Center"/>
-                                <TextBox Width="50" Margin="5,0,0,0" Text="{Binding PrixMax, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox x:Name="textBoxPrixMax" Width="50" Margin="5,0,0,0" Text="{Binding PrixMax, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBlock Text="€" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             </StackPanel>
 
                             <TextBlock Text="Date :" Margin="0,0,0,5"/>
-                            <DatePicker Margin="0,0,0,10" SelectedDate="{Binding DateCommande, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DatePicker x:Name="datePickerCommande" Margin="0,0,0,10" SelectedDate="{Binding DateCommande, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Button Content="Appliquer les filtres" Click="btnAppliquerFiltre_Click" Width="150" HorizontalAlignment="Center"/>
+                            
                         </StackPanel>
+                        
                     </Border>
                 </Popup>
+                
             </StackPanel>
 
             <!-- DataGrid -->

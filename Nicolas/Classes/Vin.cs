@@ -111,8 +111,8 @@ namespace Nicolas.Classes
                 if (dt.Rows.Count > 0)
                 {
                     this.NumFournisseur = dt.Rows[0]["numFournisseur"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numFournisseur"]) : 0;
-                    this.NumTypeVin = dt.Rows[0]["numTypeVin"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numTypeVin"]) : 0;
-                    this.NumAppelation = dt.Rows[0]["numAppelation"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numAppelation"]) : 0;
+                    this.NumTypeVin = dt.Rows[0]["numType"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numType"]) : 0;
+                    this.NumAppelation = dt.Rows[0]["numType2"] != DBNull.Value ? Convert.ToInt32(dt.Rows[0]["numType2"]) : 0;
                     this.Nomvin = dt.Rows[0]["nomVin"] != DBNull.Value ? dt.Rows[0]["nomVin"].ToString() : null;
                     this.PrixVin = dt.Rows[0]["prixVin"] != DBNull.Value ? Convert.ToDouble(dt.Rows[0]["prixVin"]) : (double?)null;
                     this.Descriptif = dt.Rows[0]["descriptif"] != DBNull.Value ? dt.Rows[0]["descriptif"].ToString() : null;
