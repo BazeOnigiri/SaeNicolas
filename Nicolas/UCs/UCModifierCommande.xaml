@@ -11,43 +11,73 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Modification de la commande" FontSize="22" FontWeight="Bold" Margin="0,0,0,10"/>
-        
+
         <!-- Infos commande -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Numéro : " FontWeight="Bold"/>
-            <TextBlock x:Name="txtNumCommande" Margin="5,0,20,0"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Commande n°" FontWeight="Bold"/>
+            <TextBlock Text="{Binding NumCommande}" Margin="5,0,20,0"/>
             <TextBlock Text="Date : " FontWeight="Bold"/>
-            <TextBlock x:Name="txtDateCommande" Margin="5,0,20,0"/>
+            <TextBlock Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}" Margin="5,0,20,0"/>
             <TextBlock Text="Prix total : " FontWeight="Bold"/>
-            <TextBlock x:Name="txtPrixTotal" Margin="5,0,20,0"/>
+            <TextBlock Text="{Binding PrixTotal, StringFormat='{}{0:F2} €'}" Margin="5,0,20,0"/>
         </StackPanel>
 
         <!-- Détails demandes associées -->
-        <GroupBox Header="Demandes associées à la commande" Grid.Row="2" Margin="0,0,0,10">
-            <DataGrid x:Name="dgDemandesAssociees" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
-                    <DataGridTextColumn Header="NomVin" Binding="{Binding NomVin}" Width="*"/>
-                    <DataGridTextColumn Header="Quantité" Binding="{Binding Quantite}" Width="*"/>
-                    <DataGridTextColumn Header="Prix du vin" Binding="{Binding PrixVin}" Width="*"/>
-                    <DataGridTextColumn Header="Date de la demande" Binding="{Binding DateDemande}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+        <TextBlock Text="Demandes associées à la commande :" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,5"/>
+        <DataGrid Grid.Row="2" x:Name="dgDemandesAssociees" 
+                  ItemsSource="{Binding DemandesAssociees}" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  SelectionMode="Single"
+                  Margin="0,0,0,10"
+                  Height="120">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
+                <DataGridTextColumn Header="NomVin" Binding="{Binding NomVin}" Width="*"/>
+                <DataGridTextColumn Header="Quantité" Binding="{Binding Quantite}" Width="*"/>
+                <DataGridTextColumn Header="Prix du vin" Binding="{Binding PrixVin}" Width="*"/>
+                <DataGridTextColumn Header="Date de la demande" Binding="{Binding DateDemande}" Width="*"/>
+                <DataGridTemplateColumn Header="Retirer">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Retirer" Command="{Binding DataContext.CmdRetirerDemande, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- Toutes les demandes -->
-        <GroupBox Header="Toutes les demandes" Grid.Row="3">
-            <DataGrid x:Name="dgToutesDemandes" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
-                    <DataGridTextColumn Header="NumVin" Binding="{Binding NumVin}" Width="*"/>
-                    <DataGridTextColumn Header="Quantite" Binding="{Binding QuantiteDemande}" Width="*"/>
-                    <DataGridTextColumn Header="DateDemande" Binding="{Binding DateDemande}" Width="*"/>
-                    <DataGridTextColumn Header="NumCommande" Binding="{Binding NumCommande}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+        <TextBlock Text="Toutes les demandes :" FontWeight="Bold" Grid.Row="3" Margin="0,0,0,5"/>
+        <DataGrid Grid.Row="3" x:Name="dgToutesDemandes"
+                  ItemsSource="{Binding ToutesDemandes}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  Margin="0,25,0,10"
+                  Height="120">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NumDemande" Binding="{Binding NumDemande}" Width="*"/>
+                <DataGridTextColumn Header="NomVin" Binding="{Binding NomVin}" Width="*"/>
+                <DataGridTextColumn Header="Quantité" Binding="{Binding QuantiteDemande}" Width="*"/>
+                <DataGridTextColumn Header="DateDemande" Binding="{Binding DateDemande, StringFormat='{}{0:dd/MM/yyyy}'}" Width="*"/>
+                <DataGridTemplateColumn Header="Ajouter">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Ajouter" Command="{Binding DataContext.CmdAjouterDemande, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Boutons -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Valider" Width="100" Margin="5" Command="{Binding CmdValider}"/>
+            <Button Content="Supprimer la commande" Width="150" Margin="5" Command="{Binding CmdSupprimer}"/>
+            <Button Content="Retour" Width="100" Margin="5" Command="{Binding CmdRetour}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

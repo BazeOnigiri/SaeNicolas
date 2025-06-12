@@ -38,24 +38,22 @@
                             <TextBlock Text="Milésime :" Margin="0,0,0,5"/>
                             <TextBox x:Name="textBoxMillesime" Width="80" Margin="0,0,0,10" Text="{Binding Millesime, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Type 1e vin :" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="comboBoxTypeVin" Width="120" Margin="0,0,0,10" SelectedValue="{Binding TypeVin, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="Type de vin :" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="comboBoxTypeVin"
+                                      Width="120"
+                                      Margin="0,0,0,10"
+                                      ItemsSource="{Binding ListeTypesVin}"
+                                      SelectedValue="{Binding TypeVin, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBoxItem Content=""/>
-                                <ComboBoxItem Content="blanc"/>
-                                <ComboBoxItem Content="rouge"/>
-                                <ComboBoxItem Content="rosé"/>
-                                <ComboBoxItem Content="effervescent"/>
-                                <ComboBoxItem Content="moelleux"/>
                             </ComboBox>
 
                             <TextBlock Text="Appelation :" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="comboBoxAppelation" Width="120" Margin="0,0,0,10" SelectedValue="{Binding Appelation, UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox x:Name="comboBoxAppelation"
+                                      Width="120"
+                                      Margin="0,0,0,10"
+                                      ItemsSource="{Binding ListeAppelations}"
+                                      SelectedValue="{Binding Appelation, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBoxItem Content=""/>
-                                <ComboBoxItem Content="blanc"/>
-                                <ComboBoxItem Content="rouge"/>
-                                <ComboBoxItem Content="rosé"/>
-                                <ComboBoxItem Content="effervescent"/>
-                                <ComboBoxItem Content="moelleux"/>
                             </ComboBox>
 
                             <TextBlock Text="Prix :" Margin="0,0,0,5"/>
@@ -81,11 +79,26 @@
             <!-- DataGrid -->
             <DataGrid x:Name="dataGridCommandes"
                   Grid.Row="2" Grid.Column="0"
-                  AutoGenerateColumns="True"
+                  AutoGenerateColumns="False"
                   SelectionChanged="dataGridCommandes_SelectionChanged"
                   Margin="0,0,10,0"
                   Height="260"
-                  VerticalAlignment="Top"/>
+                  VerticalAlignment="Top"
+                  IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding NumCommande}" Width="*"/>
+                    <DataGridTextColumn Header="Employé" Binding="{Binding NumEmploye}" Width="*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding DateCommande, StringFormat=d}" Width="*"/>
+                    <DataGridTemplateColumn Header="Validé" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Valider}" IsEnabled="False" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Montant" Binding="{Binding PrixTotal}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
             <!-- Détails de la commande -->
             <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"

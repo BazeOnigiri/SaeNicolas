@@ -26,6 +26,8 @@ namespace Nicolas.UCs
     public partial class UCVisualiserCommandes : UserControl
     {
         private List<Commande> commandes;
+        public List<Appelation> ListeAppelations { get; set; }
+        public List<TypeVin> ListeTypesVin { get; set; }
 
         public string Recherche { get; set; }
         public string Millesime { get; set; }
@@ -41,6 +43,9 @@ namespace Nicolas.UCs
             Commande uneCommande = new Commande(0, 0, null, null, null);
             commandes = uneCommande.FindAll();
             dataGridCommandes.ItemsSource = commandes;
+
+            
+
             DataContext = this;
         }
 
@@ -260,15 +265,17 @@ namespace Nicolas.UCs
 
         private void BtnModifier_Click(object sender, RoutedEventArgs e)
         {
+            // On récupère la commande sélectionnée dans le DataGrid
             if (dataGridCommandes.SelectedItem is Commande commande)
             {
+                // On vérifie que la commande n'est pas validée
                 if (commande.Valider == true)
                 {
                     MessageBox.Show("Impossible de modifier une commande validée.");
                     return;
                 }
 
-                // Navigation vers UCModifierCommande
+                // Navigation vers l'UC de modification
                 var mainWindow = Application.Current.MainWindow as MainWindow;
                 if (mainWindow != null)
                 {
