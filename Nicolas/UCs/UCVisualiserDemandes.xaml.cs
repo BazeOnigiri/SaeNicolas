@@ -25,16 +25,19 @@ namespace Nicolas.UCs
         
         public UCVisualiserDemandes()
         {
-            InitializeComponent();
             
+            InitializeComponent();
+            ChargeData();
+
         }
 
         public void ChargeData()
         {
             try
             {
-                ObservableCollection<Demande> demandes = new ObservableCollection<Demande>(new Demande().FindAll());
-                this.DataContext = dgDemande.ItemsSource;
+                ObservableCollection<Demande> lesDemandes = new ObservableCollection<Demande>(new Demande().FindAll());
+                dgDemande.ItemsSource = lesDemandes;
+                
             }
             catch (Exception ex)
             {

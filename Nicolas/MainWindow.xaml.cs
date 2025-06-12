@@ -22,6 +22,7 @@ namespace Nicolas
             InitializeComponent();
             UCLogin login = new UCLogin();
             UCVisualiserCommandes visualiserCommande = new UCVisualiserCommandes();
+            UCVisualiserDemandes visualiserDemandes = new UCVisualiserDemandes();
             mainGrid.Children.Add(login);
         }
     }
