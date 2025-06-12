@@ -20,7 +20,11 @@ namespace Nicolas.Classes
         private int? quantiteDemande;
         private string? accepter;
 
-        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
+        public Demande()
+        {
+        }
+
+        public Demande(int numDemande, int numVin, int numEmploye, int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
         {
             NumDemande = numDemande;
             NumVin = numVin;
