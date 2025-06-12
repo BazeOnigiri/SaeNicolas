@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Nicolas"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/ImageFond.png"/>
+    </Window.Background>
+    <Grid x:Name="mainGrid">
 
     </Grid>
 </Window>

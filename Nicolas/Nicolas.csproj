@@ -8,4 +8,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\ImageFond.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+    <PackageReference Include="WebGrease" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\ImageFond.png" />
+  </ItemGroup>
+
 </Project>
