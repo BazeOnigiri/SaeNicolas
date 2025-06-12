@@ -142,9 +142,18 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesVins.Add(new Vin((Int32)dr["numVin"], (Int32)dr["nomFournisseur"],
-                   (Int32)dr["numtype1"], (Int32)dr["numtype2"], (String?)dr["nomVin"], 
-                   (Double?)dr["prixVin"], (String?)dr["descriptif"], (Int32?)dr["millesime"]));
+                {
+                    int numVin = dr["numVin"] != DBNull.Value ? Convert.ToInt32(dr["numVin"]) : 0;
+                    int numFournisseur = dr["numFournisseur"] != DBNull.Value ? Convert.ToInt32(dr["numFournisseur"]) : 0;
+                    int numTypeVin = dr["numTypeVin"] != DBNull.Value ? Convert.ToInt32(dr["numTypeVin"]) : 0;
+                    int numAppelation = dr["numAppelation"] != DBNull.Value ? Convert.ToInt32(dr["numAppelation"]) : 0;
+                    string? nomvin = dr["nomVin"] != DBNull.Value ? dr["nomVin"].ToString() : null;
+                    double? prixVin = dr["prixVin"] != DBNull.Value ? Convert.ToDouble(dr["prixVin"]) : (double?)null;
+                    string? descriptif = dr["descriptif"] != DBNull.Value ? dr["descriptif"].ToString() : null;
+                    int? millesime = dr["millesime"] != DBNull.Value ? Convert.ToInt32(dr["millesime"]) : (int?)null;
+
+                    lesVins.Add(new Vin(numVin, numFournisseur, numTypeVin, numAppelation, nomvin, prixVin, descriptif, millesime));
+                }
             }
             return lesVins;
         }

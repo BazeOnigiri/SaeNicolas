@@ -52,7 +52,12 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesTypeVins.Add(new TypeVin((Int32)dr["numType"], (String?)dr["nomTypeVin"]));
+                {
+                    int numType = dr["numType"] != DBNull.Value ? Convert.ToInt32(dr["numType"]) : 0;
+                    string? nomtype = (dr["nomtype"] != DBNull.Value ? dr["nomtype"].ToString() : null);
+
+                    lesTypeVins.Add(new TypeVin(numType, nomtype));
+                }
             }
             return lesTypeVins;
         }

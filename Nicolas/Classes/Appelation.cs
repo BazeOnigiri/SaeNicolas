@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,10 @@ namespace Nicolas.Classes
     {
         private int numType;
         private string? nomAppelation;
+
+        public Appelation()
+        {
+        }
 
         public Appelation(int numType, string? nomAppelation)
         {
@@ -45,7 +50,6 @@ namespace Nicolas.Classes
             }
         }
 
-
         public List<Appelation> FindAll()
         {
             List<Appelation> lesAppelations = new List<Appelation>();
@@ -53,7 +57,12 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesAppelations.Add(new Appelation((Int32)dr["numType2"], (String?)dr["nomAppelation"]));
+                {
+                    int numType = dr["numType2"] != DBNull.Value ? Convert.ToInt32(dr["numType2"]) : 0;
+                    string? nomAppelation = dr["nomAppelation"] != DBNull.Value ? dr["nomAppelation"].ToString() : null;
+
+                    lesAppelations.Add(new Appelation(numType, nomAppelation));
+                }
             }
             return lesAppelations;
         }

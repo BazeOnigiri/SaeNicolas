@@ -1,7 +1,9 @@
-﻿using Nicolas.Classes;
+﻿using Microsoft.Ajax.Utilities;
+using Nicolas.Classes;
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -26,8 +28,12 @@ namespace Nicolas.UCs
         public UCVisualiserCommandes()
         {
             InitializeComponent();
+            Commande uneCommande = new Commande(0, 0, null, null, null);
+            List<Commande> commandes = uneCommande.FindAll();
+            dataGridCommandes.ItemsSource = commandes;
             DataContext = this;
         }
+
 
         private void btnFiltre_Click(object sender, RoutedEventArgs e)
         {
@@ -50,23 +56,7 @@ namespace Nicolas.UCs
         {
             if (dataGridCommandes.SelectedItem is DataRowView row)
             {
-                string numCommande = TryGetValue(row, "NumCommande");
-                string nomEmploye = TryGetValue(row, "NomEmploye");
-                string prenomEmploye = TryGetValue(row, "PrenomEmploye");
-                string montant = TryGetValue(row, "PrixTotal");
-                string valide = TryGetValue(row, "Valider");
-                string dateCommande = TryGetValue(row, "DateCommande");
-
-                textBlockDetails.Text = $"ID commande : {numCommande}\n" +
-                                       $"Employé : {prenomEmploye} {nomEmploye}\n" +
-                                       $"Date : {dateCommande}\n" +
-                                       $"Montant : {montant} €\n" +
-                                       $"Validé : {valide}";
-
-                //if (int.TryParse(numCommande, out int numCmd))
-                //    itemsVins.ItemsSource = GetVinsPourCommande(numCmd);
-                //else
-                //    itemsVins.ItemsSource = null;
+                
             }
             else
             {

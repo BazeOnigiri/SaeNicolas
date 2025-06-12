@@ -52,7 +52,12 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesRoles.Add(new Role((Int32)dr["numRole"], (String)dr["nomRole"]));
+                {
+                    int numRole = dr["numRole"] != DBNull.Value ? Convert.ToInt32(dr["numRole"]) : 0;
+                    string? nomRole = dr["nomRole"] != DBNull.Value ? dr["nomRole"].ToString() : null;
+
+                    lesRoles.Add(new Role(numRole, nomRole));
+                }
             }
             return lesRoles;
         }

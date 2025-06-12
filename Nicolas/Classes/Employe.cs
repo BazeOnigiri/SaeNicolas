@@ -97,8 +97,15 @@ namespace Nicolas.Classes
             {
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
-                    lesEmployes.Add(new Employe((Int32)dr["numEmploye"], (Int32)dr["numRole"],
-                        (String?)dr["nom"], (String?)dr["prenom"], (String?)dr["login"]));
+                {
+                    int numEmploye = dr["numEmploye"] != DBNull.Value ? Convert.ToInt32(dr["numEmploye"]) : 0;
+                    int numRole = dr["numRole"] != DBNull.Value ? Convert.ToInt32(dr["numRole"]) : 0;
+                    string? nom = dr["nom"] != DBNull.Value ? dr["nom"].ToString() : null;
+                    string? prenom = dr["prenom"] != DBNull.Value ? dr["prenom"].ToString() : null;
+                    string? login = dr["login"] != DBNull.Value ? dr["login"].ToString() : null;
+
+                    lesEmployes.Add(new Employe(numEmploye, numRole, nom, prenom, login));
+                }
             }
             return lesEmployes;
         }
