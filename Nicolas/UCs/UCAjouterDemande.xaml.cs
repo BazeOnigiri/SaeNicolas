@@ -21,7 +21,7 @@ namespace Nicolas.UCs
     /// </summary>
     public partial class UCAjouterDemande : UserControl
     {
-        public UCAjouterDemande()
+        public UCAjouterDemande(Classes.Vin vinSelectionne)
         {
             InitializeComponent();
         }
