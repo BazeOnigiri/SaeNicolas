@@ -196,6 +196,25 @@ namespace Nicolas.UCs
             RetournerALaListe();
         }
 
+        private void BtnValiderCommande_Click(object sender, RoutedEventArgs e)
+        {
+            if (demandesAssociees.Count == 0)
+            {
+                MessageBox.Show("Impossible de valider une commande sans demande associée.", "Erreur");
+                return;
+            }
+
+            if (MessageBox.Show("Voulez-vous valider cette commande ? Une fois validée, elle ne pourra plus être modifiée.",
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                // Sauvegarder d'abord les modifications
+                commande.PrixTotal = NouveauTotal;
+                commande.Valider = true;
+                commande.Update();
+                RetournerALaListe();
+            }
+        }
+
         private void BtnSupprimer_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Voulez-vous supprimer cette commande ?", "Confirmation",

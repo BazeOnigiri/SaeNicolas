@@ -74,7 +74,7 @@
 
             <!-- Demandes associées à la commande -->
             <DockPanel Grid.Column="0" Margin="0,0,5,0">
-                <TextBlock DockPanel.Dock="Top" Text="Demandes associées" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBlock DockPanel.Dock="Top" Text="Demandes associées" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="White"/>
                 <DataGrid x:Name="dgDemandesAssociees" 
                          ItemsSource="{Binding DemandesAssociees}"
                          AutoGenerateColumns="False"
@@ -102,7 +102,7 @@
 
             <!-- Liste de toutes les demandes -->
             <DockPanel Grid.Column="1" Margin="5,0,0,0">
-                <TextBlock DockPanel.Dock="Top" Text="Demandes disponibles" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBlock DockPanel.Dock="Top" Text="Demandes disponibles" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="White"/>
                 <DataGrid x:Name="dgToutesDemandes"
                          ItemsSource="{Binding ToutesLesDemandes}"
                          AutoGenerateColumns="False"
@@ -131,9 +131,26 @@
 
         <!-- Boutons d'action -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Valider" Click="BtnValider_Click" Width="80" Margin="5,0"/>
-            <Button Content="Supprimer" Click="BtnSupprimer_Click" Width="80" Margin="5,0"/>
-            <Button Content="Retour" Click="BtnRetour_Click" Width="80" Margin="5,0,0,0"/>
+            <Button x:Name="btnValiderCommande" 
+                    Content="Valider la commande" 
+                    Width="150" 
+                    Margin="5" 
+                    Click="BtnValiderCommande_Click"/>
+            <Button x:Name="btnValiderChangements" 
+                    Content="Valider les changements" 
+                    Width="150" 
+                    Margin="5" 
+                    Click="BtnValider_Click"/>
+            <Button x:Name="btnSupprimer" 
+                    Content="Supprimer la commande" 
+                    Width="150" 
+                    Margin="5" 
+                    Click="BtnSupprimer_Click"/>
+            <Button x:Name="btnRetour" 
+                    Content="Retour" 
+                    Width="100" 
+                    Margin="5" 
+                    Click="BtnRetour_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>
