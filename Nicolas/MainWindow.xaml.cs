@@ -24,7 +24,7 @@ namespace Nicolas
         {
             InitializeComponent();
             UCLogin login = new UCLogin();
-            UCAjouterDemande demande = new UCAjouterDemande();
+            UCRechercherVin rechercherVin = new UCRechercherVin();
             mainGrid.Children.Add(login);
 
             /*Commande uneCommande = new Commande(0, 0, null, null, null);

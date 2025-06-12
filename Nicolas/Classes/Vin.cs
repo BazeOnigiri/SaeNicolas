@@ -156,8 +156,8 @@ namespace Nicolas.Classes
                 {
                     int numVin = dr["numVin"] != DBNull.Value ? Convert.ToInt32(dr["numVin"]) : 0;
                     int numFournisseur = dr["numFournisseur"] != DBNull.Value ? Convert.ToInt32(dr["numFournisseur"]) : 0;
-                    int numTypeVin = dr["numTypeVin"] != DBNull.Value ? Convert.ToInt32(dr["numTypeVin"]) : 0;
-                    int numAppelation = dr["numAppelation"] != DBNull.Value ? Convert.ToInt32(dr["numAppelation"]) : 0;
+                    int numTypeVin = dr["numType"] != DBNull.Value ? Convert.ToInt32(dr["numType"]) : 0;
+                    int numAppelation = dr["numType2"] != DBNull.Value ? Convert.ToInt32(dr["numType2"]) : 0;
                     string? nomvin = dr["nomVin"] != DBNull.Value ? dr["nomVin"].ToString() : null;
                     double? prixVin = dr["prixVin"] != DBNull.Value ? Convert.ToDouble(dr["prixVin"]) : (double?)null;
                     string? descriptif = dr["descriptif"] != DBNull.Value ? dr["descriptif"].ToString() : null;

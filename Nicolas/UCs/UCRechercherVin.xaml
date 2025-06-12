@@ -12,7 +12,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
-                <RowDefinition Height="Auto" MinHeight="52.077"/>
+                <RowDefinition Height="Auto" MinHeight="76.077"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
@@ -68,27 +68,27 @@
             </StackPanel>
 
             <!-- DataGrid -->
+            <!-- DataGrid -->
             <DataGrid x:Name="dataGridVins"
-                  Grid.Row="2" Grid.Column="0"
-                  AutoGenerateColumns="False"
-                  SelectionChanged="dataGridVins_SelectionChanged"
-                  Margin="0,0,10,0"
-                  Height="260"
-                  VerticalAlignment="Top"
-                  IsReadOnly="True">
+              Grid.Row="2" Grid.Column="0"
+              AutoGenerateColumns="False"
+              SelectionChanged="dataGridVins_SelectionChanged"
+              Margin="0,0,10,0"
+              Height="260"
+              VerticalAlignment="Top"
+              IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding NumVin}" Width="*"/>
-                    <DataGridTextColumn Header="Nom" Binding="{Binding NomVin}" Width="2*"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding NumVin}" Width="0.5*"/>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Nomvin}" Width="2*"/>
                     <DataGridTextColumn Header="Millésime" Binding="{Binding Millesime}" Width="*"/>
-                    <DataGridTextColumn Header="Prix" Binding="{Binding Prix}" Width="*"/>
-                    <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="*"/>
+                    <DataGridTextColumn Header="Prix" Binding="{Binding PrixVin, StringFormat={}{0:C2}}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <!-- Détails du vin -->
-            <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"
+            <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                 BorderBrush="Red" BorderThickness="1" Padding="10"
-                Background="#FAFAFA" Margin="0,0,0,80">
+                Background="#FAFAFA" Margin="0,0,0,22">
                 <StackPanel>
                     <TextBlock Text="Détails du vin" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
                     <TextBlock x:Name="textBlockDetails" TextWrapping="Wrap"/>
@@ -96,8 +96,8 @@
             </Border>
 
             <!-- Bouton -->
-            <Button Content="Créer une demande" Grid.Row="3" Grid.Column="0" Width="150" 
-                    HorizontalAlignment="Center" Click="BtnCreerDemande_Click"/>
+            <Button Content="Créer une demande" Grid.Row="3" Width="150" 
+                    HorizontalAlignment="Center" Click="BtnCreerDemande_Click" Margin="0,0,0,37"/>
         </Grid>
     </Border>
 </UserControl>

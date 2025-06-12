@@ -41,6 +41,7 @@ namespace Nicolas.UCs
             // Chargement des appellations
             var uneAppelation = new Appelation(0, null);
             ListeAppelations = uneAppelation.FindAll();
+            comboBoxAppelation.Items.Clear();
             comboBoxAppelation.ItemsSource = ListeAppelations;
             comboBoxAppelation.DisplayMemberPath = "NomAppelation";
             comboBoxAppelation.SelectedValuePath = "NumType2";
@@ -48,6 +49,7 @@ namespace Nicolas.UCs
             // Chargement des types de vin
             var unTypeVin = new TypeVin(0, null);
             ListeTypesVin = unTypeVin.FindAll();
+            comboBoxTypeVin.Items.Clear();
             comboBoxTypeVin.ItemsSource = ListeTypesVin;
             comboBoxTypeVin.DisplayMemberPath = "Nomtype";
             comboBoxTypeVin.SelectedValuePath = "NumType";
@@ -61,7 +63,14 @@ namespace Nicolas.UCs
             // Filtre de recherche texte
             if (!string.IsNullOrEmpty(Recherche))
             {
-                bool matchRecherche = vin.Nomvin.Contains(Recherche, StringComparison.OrdinalIgnoreCase);
+                // Récupérer le fournisseur
+                var fournisseur = new Fournisseur(vin.NumFournisseur, null);
+                fournisseur.Read();
+
+                bool matchRecherche =
+                    vin.Nomvin.Contains(Recherche, StringComparison.OrdinalIgnoreCase) ||
+                    fournisseur.NomFournisseur.Contains(Recherche, StringComparison.OrdinalIgnoreCase);
+
                 if (!matchRecherche)
                     return false;
             }
