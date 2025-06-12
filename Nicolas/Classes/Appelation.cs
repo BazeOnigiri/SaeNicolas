@@ -44,9 +44,9 @@ namespace Nicolas.Classes
                 nomAppelation = value;
             }
         }
-    }
 
-    public List<Appelation> FindAll()
+
+        public List<Appelation> FindAll()
         {
             List<Appelation> lesAppelations = new List<Appelation>();
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand("select * from Appelation;"))
@@ -58,3 +58,4 @@ namespace Nicolas.Classes
             return lesAppelations;
         }
     }
+}
