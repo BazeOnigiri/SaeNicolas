@@ -18,9 +18,11 @@ namespace Nicolas.Classes
         private int numClient;
         private DateTime? dateDemande;
         private int? quantiteDemande;
-        private string? etatDemande;
+        private string? accepter;
 
-        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? etatDemande)
+        
+
+        public Demande(int numDemande, int numVin, int numEmploye,int? numCommande, int numClient, DateTime? dateDemande, int? quantiteDemande, string? accepter)
         {
             NumDemande = numDemande;
             NumVin = numVin;
@@ -29,7 +31,7 @@ namespace Nicolas.Classes
             NumClient = numClient;
             DateDemande = dateDemande;
             QuantiteDemande = quantiteDemande;
-            EtatDemande = etatDemande;
+            Accepter = accepter;
         }
 
         public int NumDemande
@@ -110,16 +112,16 @@ namespace Nicolas.Classes
             }
         }
 
-        public string? EtatDemande
+        public string? Accepter
         {
             get
             {
-                return etatDemande;
+                return accepter;
             }
 
             set
             {
-                etatDemande = value;
+                accepter = value;
             }
         }
 
@@ -144,7 +146,7 @@ namespace Nicolas.Classes
                 DataTable dt = DataAccess.Instance.ExecuteSelect(cmdSelect);
                 foreach (DataRow dr in dt.Rows)
                     lesDemandes.Add(new Demande((Int32)dr["numDemande"], (Int32)dr["numVin"],
-                   (Int32)dr["numEmploye"], (Int32?)dr["numCommande"], (Int32)dr["numClient"], (DateTime?)dr["dateDemande"], (Int32?)dr["quantiteDemande"], (String?)dr["etatDemande"]));
+                   (Int32)dr["numEmploye"], (Int32?)dr["numCommande"], (Int32)dr["numClient"], (DateTime?)dr["dateDemande"], (Int32?)dr["quantiteDemande"], (String?)dr["accepter"]));
             }
             return lesDemandes;
         }
