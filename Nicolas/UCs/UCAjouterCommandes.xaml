@@ -32,7 +32,7 @@
                  VerticalAlignment="Center" Foreground="White"/>
             <TextBlock Text="{Binding PrixTotal, StringFormat={}{0:C2}}"
                  VerticalAlignment="Center"
-                 Margin="5,0,0,0"/>
+                 Margin="5,0,0,0" Foreground="White"/>
         </StackPanel>
 
         <!-- Demandes -->
