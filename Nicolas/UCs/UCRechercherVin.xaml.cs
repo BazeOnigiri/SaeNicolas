@@ -55,7 +55,7 @@ namespace Nicolas.UCs
             comboBoxTypeVin.SelectedValuePath = "NumType";
         }
 
-        private bool FiltrerVins(object item)
+        public bool FiltrerVins(object item)
         {
             if (!(item is Vin vin))
                 return false;

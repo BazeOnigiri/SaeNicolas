@@ -89,12 +89,12 @@ namespace Nicolas.UCs
             }
         }
 
-        private void RecalculerTotal()
+        public void RecalculerTotal()
         {
             PrixTotal = DemandesSelectionnees.Sum(d => (decimal)(d.PrixVin ?? 0) * (d.QuantiteDemande ?? 0));
         }
 
-        private void BtnAjouter_Click(object sender, RoutedEventArgs e)
+        public void BtnAjouter_Click(object sender, RoutedEventArgs e)
         {
             var demande = dgDemandesDisponibles.SelectedItem as DemandeAffichage;
             if (demande != null)

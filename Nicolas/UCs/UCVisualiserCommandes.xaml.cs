@@ -65,7 +65,7 @@ namespace Nicolas.UCs
             DataContext = this;
         }
 
-        private bool RechercheMotClef(object obj)
+        public bool RechercheMotClef(object obj)
         {
             if (string.IsNullOrEmpty(textBoxRecherche.Text))
                 return true;
@@ -119,7 +119,7 @@ namespace Nicolas.UCs
             popupFiltre.IsOpen = !popupFiltre.IsOpen;
         }
 
-        private void btnClearFiltres_Click(object sender, RoutedEventArgs e)
+        public void btnClearFiltres_Click(object sender, RoutedEventArgs e)
         {
             btnClearFiltres.IsEnabled = false;
 
@@ -225,7 +225,7 @@ namespace Nicolas.UCs
             return "";
         }
 
-        private void dataGridCommandes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void dataGridCommandes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dataGridCommandes.SelectedItem is Commande commande)
             {

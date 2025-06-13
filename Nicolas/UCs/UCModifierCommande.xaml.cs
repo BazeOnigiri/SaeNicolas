@@ -144,7 +144,7 @@ namespace Nicolas.UCs
             }
         }
 
-        private void RecalculerTotal()
+        public void RecalculerTotal()
         {
             decimal nouveauTotal = 0;
             foreach (var demande in demandesAssociees)

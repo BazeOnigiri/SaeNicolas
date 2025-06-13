@@ -166,7 +166,7 @@ namespace Nicolas.UCs
             }
         }
 
-        private bool ValiderChamps()
+        public bool ValiderChamps()
         {
             if (string.IsNullOrEmpty(txtQuantite.Text))
             {

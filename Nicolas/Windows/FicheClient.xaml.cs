@@ -81,7 +81,7 @@ namespace Nicolas.Windows
             }
         }
 
-        private bool ValiderChamps()
+        public bool ValiderChamps()
         {
             // Validation du nom
             if (string.IsNullOrWhiteSpace(txtNom.Text))
