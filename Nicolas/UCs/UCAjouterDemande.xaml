@@ -36,49 +36,61 @@
                 </Grid.RowDefinitions>
 
                 <!-- Vin sélectionné -->
-                <Label Grid.Row="0" Grid.Column="0" 
+                <Label 
                        Content="Vin sélectionné :" 
-                       FontWeight="Bold" 
-                       Margin="0,0,10,0"
+                       FontWeight="Bold"
                        VerticalAlignment="Center"
                        Foreground="Black" Height="26"/>
-                <TextBlock Grid.Row="0" Grid.Column="1"
+                <TextBlock Grid.Column="1"
                           x:Name="txtVinSelectionne" 
                           Background="#FAFAFA"
                           Padding="5"
                           TextWrapping="Wrap"
                           MinHeight="25"
-                          Margin="10,0,10,10" VerticalAlignment="Center"/>
+                          Margin="10,0,10,0" VerticalAlignment="Center"/>
 
                 <!-- Date -->
-                <Label Grid.Row="1" Grid.Column="0" 
+                <Label Grid.Row="1" 
                        Content="Date :" 
                        FontWeight="Bold"
-                       Margin="0,0,10,10"
-                       Foreground="Black" VerticalAlignment="Center"/>
+                       Margin="0,5,0,0"
+                       Foreground="Black" VerticalAlignment="Top"/>
                 <DatePicker Grid.Row="1" Grid.Column="1"
                            x:Name="dpDate" 
-                           Margin="10,0,0,10" HorizontalAlignment="Left" Width="150" VerticalAlignment="Center"/>
+                           Margin="10,0,0,10" HorizontalAlignment="Left" Width="150" VerticalAlignment="Center" IsEnabled="False"/>
 
                 <!-- Quantité -->
-                <Label Grid.Row="2" Grid.Column="0" 
+                <Label Grid.Row="2" 
                        Content="Quantité :" 
                        FontWeight="Bold"
-                       Margin="0,0,10,10"
-                       Foreground="Black" VerticalAlignment="Center"/>
+                       Margin="0,5,0,0"
+                       Foreground="Black" VerticalAlignment="Top"/>
                 <TextBox Grid.Row="2" Grid.Column="1"
                         x:Name="txtQuantite"
-                        Margin="10,0,10,11" VerticalAlignment="Center"/>
+                        Margin="10,0,10,11" VerticalAlignment="Center" Text="1"/>
 
                 <!-- Client -->
-                <Label Grid.Row="3" Grid.Column="0" 
+                <Label Grid.Row="3" 
                        Content="Client :" 
                        FontWeight="Bold"
-                       Margin="0,0,10,10"
-                       Foreground="Black" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="3" Grid.Column="1"
-                        x:Name="txtClient"
-                        Margin="10,0,10,11" VerticalAlignment="Center"/>
+                       Foreground="Black" 
+                       VerticalAlignment="Top"/>
+                <Grid Grid.Row="3" Grid.Column="1" Margin="10,0,10,11">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox x:Name="txtClient"
+                             VerticalAlignment="Center"
+                             TextChanged="txtClient_TextChanged"/>
+
+                    <ListBox x:Name="listSuggestions"
+                             Grid.Row="1"
+                             MaxHeight="100"
+                             Visibility="Collapsed"
+                             SelectionChanged="listSuggestions_SelectionChanged"/>
+                </Grid>
 
                 <!-- Boutons Client -->
                 <StackPanel Grid.Row="4"

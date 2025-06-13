@@ -1,6 +1,8 @@
 ﻿using Nicolas.Classes;
 using Nicolas.Windows;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,11 +12,17 @@ namespace Nicolas.UCs
     {
         private readonly Vin vinSelectionne;
         private Client clientSelectionne;
+        private List<Client> tousLesClients;
 
         public UCAjouterDemande(Vin vinSelectionne)
         {
             InitializeComponent();
             this.vinSelectionne = vinSelectionne;
+
+            // Charger la liste des clients
+            var client = new Client();
+            tousLesClients = client.FindAll();
+
             InitialiserControles();
         }
 
@@ -23,6 +31,46 @@ namespace Nicolas.UCs
             txtVinSelectionne.Text = $"{vinSelectionne.Nomvin} ({vinSelectionne.Millesime})";
             dpDate.SelectedDate = DateTime.Now;
             txtQuantite.Focus();
+        }
+
+        private void txtClient_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string recherche = txtClient.Text.ToLower();
+
+            if (string.IsNullOrWhiteSpace(recherche))
+            {
+                listSuggestions.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            var suggestions = tousLesClients
+                .Where(c => (c.NomClient?.ToLower().Contains(recherche) ?? false) ||
+                            (c.PrenomClient?.ToLower().Contains(recherche) ?? false))
+                .Take(3)
+                .ToList();
+
+            if (suggestions.Any())
+            {
+                listSuggestions.Items.Clear();
+                foreach (var client in suggestions)
+                {
+                    listSuggestions.Items.Add($"{client.NumClient} - {client.NomClient} {client.PrenomClient}");
+                }
+                listSuggestions.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                listSuggestions.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void listSuggestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listSuggestions.SelectedItem != null)
+            {
+                txtClient.Text = listSuggestions.SelectedItem.ToString();
+                listSuggestions.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void butModifClient_Click(object sender, RoutedEventArgs e)
