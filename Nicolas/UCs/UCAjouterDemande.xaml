@@ -22,8 +22,7 @@
                    Foreground="White" Width="212"/>
 
             <!-- Contenu principal -->
-            <!-- Contenu principal -->
-            <Grid Grid.Row="1" Margin="140,10,168,10" Background="#A5FFFFFF">
+            <Grid Grid.Row="1" Margin="140,10,168,10" Background="#F2FFFFFF">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

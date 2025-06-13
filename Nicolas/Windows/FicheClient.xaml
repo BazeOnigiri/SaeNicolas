@@ -5,25 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nicolas.Windows"
         mc:Ignorable="d"
-        Title="FicheClient" Height="300" Width="200">
-    <Grid>
-        <StackPanel>
-            <Label x:Name="labFicheClient" Content="Fiche Client" HorizontalAlignment="Center" FontWeight="Bold" />
-            <Label x:Name="labNom" Content="Nom" Margin="20,10,0,0" />
-            <TextBox x:Name="txtNom"
-            Width="150"
-            TextWrapping="Wrap" Margin="0,0,20,0" HorizontalAlignment="Center" Text="{Binding Nom}" />
-            <Label x:Name="labPrenom" Content="Prénom" Margin="20,10,0,0" />
-            <TextBox x:Name="txtPrenom"
-            Width="150"
-            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" Text="{Binding Prenom}" />
-            <Label x:Name="labMail" Content="Mail" Margin="20,10,0,0" />
-            <TextBox x:Name="txtMail"
-            Width="150"
-            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,20,0" Text="{Binding Mail}" />
-            <Button x:Name="butValider" Content="Valider" Background="Black" Foreground="#FFDEDEDE" HorizontalAlignment="Center" Margin="0,20,0,0" Click="butValider_Click" />
+        Title="Fiche Client" Height="300" Width="350"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        </StackPanel>
+            <!-- Titre -->
+            <Label Content="Fiche Client" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10"
+                   Foreground="Black"/>
 
-    </Grid>
+            <!-- Contenu principal -->
+            <Grid Grid.Row="1" Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Nom -->
+                <Label Grid.Row="0" Grid.Column="0"
+                       Content="Nom :" 
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="0,5"
+                       Foreground="Black"/>
+                <TextBox Grid.Row="0" Grid.Column="1"
+                        x:Name="txtNom"
+                        Height="25"
+                        Margin="0,5"
+                        Text="{Binding Nom}"/>
+
+                <!-- Prénom -->
+                <Label Grid.Row="1" Grid.Column="0"
+                       Content="Prénom :" 
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="0,5"
+                       Foreground="Black"/>
+                <TextBox Grid.Row="1" Grid.Column="1"
+                        x:Name="txtPrenom"
+                        Height="25"
+                        Margin="0,5"
+                        Text="{Binding Prenom}"/>
+
+                <!-- Email -->
+                <Label Grid.Row="2" Grid.Column="0"
+                       Content="Email :" 
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="0,5"
+                       Foreground="Black"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                        x:Name="txtMail"
+                        Height="25"
+                        Margin="0,5"
+                        Text="{Binding Mail}"/>
+            </Grid>
+
+            <!-- Boutons -->
+            <StackPanel Grid.Row="2" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center"
+                        Margin="0,15,0,0">
+                <Button x:Name="butValider"
+                        Content="Valider"
+                        Width="120"
+                        Height="30"
+                        Margin="0,0,10,0"
+                        Click="butValider_Click"/>
+                <Button x:Name="butAnnuler"
+                        Content="Annuler"
+                        Width="120"
+                        Height="30"
+                        Click="butAnnuler_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>
