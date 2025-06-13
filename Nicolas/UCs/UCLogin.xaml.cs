@@ -31,21 +31,56 @@ namespace Nicolas.UCs
         {
             using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT EXISTS (SELECT 1 FROM employe WHERE login = @login)"))
             {
-                cmdSelect.Parameters.AddWithValue("login", txtIdentifiant.Text);
-                object login = DataAccess.Instance.ExecuteSelectUneValeur(cmdSelect);
-                bool res = Convert.ToBoolean(login);
-                if (res == true)
+                Employe employe = new Employe();
+                List<Employe> employes = employe.FindAll();
+
+                // Rechercher l'employé par login
+                Employe employeConnecte = employes.FirstOrDefault(emp => emp.Login == txtIdentifiant.Text);
+
+                if (employeConnecte != null)
                 {
+                    int numRole = employeConnecte.NumRole;
+
+                    // Connexion réussie
                     MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
                     if (mainWindow != null)
                     {
                         mainWindow.mainGrid.Children.Clear();
-                        mainWindow.mainGrid.Children.Add(new UCVisualiserCommandes());
+
+                        UserControl userControlToAdd = null;
+
+                        switch (numRole)
+                        {
+                            case 1:
+                                userControlToAdd = new UCRechercherVin();
+                                break;
+                            case 2:
+                                userControlToAdd = new UCVisualiserCommandes();
+                                break;
+                            default:
+                                txtErreur.Text = "Rôle non reconnu pour cet utilisateur";
+                                return;
+                        }
+
+                        if (userControlToAdd != null)
+                        {
+                            // Si vous avez besoin de passer l'employé connecté aux UserControls :
+                            // if (userControlToAdd is UCRechercherVin ucRechercherVin)
+                            //     ucRechercherVin.EmployeConnecte = employeConnecte;
+                            // if (userControlToAdd is UCVisualiserCommandes ucVisualiserCommandes)
+                            //     ucVisualiserCommandes.EmployeConnecte = employeConnecte;
+
+                            mainWindow.mainGrid.Children.Add(userControlToAdd);
+                        }
                     }
                 }
                 else
+                {
                     txtErreur.Text = "Identifiant incorrect ! Veuillez réessayer";
+                }
+
             }
+            
         }
     }
 }
