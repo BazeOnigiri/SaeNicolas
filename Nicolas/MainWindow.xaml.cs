@@ -25,7 +25,9 @@ namespace Nicolas
             InitializeComponent();
             UCLogin login = new UCLogin();
             UCRechercherVin rechercherVin = new UCRechercherVin();
-            mainGrid.Children.Add(login);
+            mainGrid.Children.Add(rechercherVin);
+
+
         }
     }
 }

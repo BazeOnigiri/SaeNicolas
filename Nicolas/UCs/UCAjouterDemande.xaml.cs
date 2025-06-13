@@ -1,35 +1,152 @@
-﻿using Nicolas.Windows;
+﻿using Nicolas.Classes;
+using Nicolas.Windows;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Nicolas.UCs
 {
-    /// <summary>
-    /// Logique d'interaction pour UCAjouterDemande.xaml
-    /// </summary>
     public partial class UCAjouterDemande : UserControl
     {
-        public UCAjouterDemande(Classes.Vin vinSelectionne)
+        private readonly Vin vinSelectionne;
+        private Client clientSelectionne;
+
+        public UCAjouterDemande(Vin vinSelectionne)
         {
             InitializeComponent();
+            this.vinSelectionne = vinSelectionne;
+            InitialiserControles();
+        }
+
+        private void InitialiserControles()
+        {
+            txtVinSelectionne.Text = $"{vinSelectionne.Nomvin} ({vinSelectionne.Millesime})";
+            dpDate.SelectedDate = DateTime.Now;
+            txtQuantite.Focus();
+        }
+
+        private void butModifClient_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtClient.Text))
+            {
+                MessageBox.Show("Veuillez d'abord entrer un numéro de client.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (!int.TryParse(txtClient.Text, out int numClient))
+            {
+                MessageBox.Show("Le numéro de client doit être un nombre.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var client = new Client(numClient, null, null, null);
+            client.Read();
+            if (client.NumClient > 0)
+            {
+                clientSelectionne = client;
+                txtClient.Text = $"{client.NumClient} - {client.NomClient} {client.PrenomClient}";
+            }
+            else
+            {
+                MessageBox.Show("Client non trouvé.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void butNouveauClient_Click(object sender, RoutedEventArgs e)
         {
             FicheClient client = new FicheClient();
             client.Show();
+        }
+
+        private void butValiderDemande_Click(object sender, RoutedEventArgs e)
+        {
+            // Validation des champs
+            if (!ValiderChamps())
+                return;
+
+            try
+            {
+                // Création de la demande avec numEmploye en dur = 1
+                var demande = new Demande(
+                    0, // numDemande (sera généré par la BD)
+                    vinSelectionne.NumVin,
+                    1, // numEmploye en dur pour l'instant
+                    null, // numCommande (null car nouvelle demande)
+                    int.Parse(txtClient.Text.Split('-')[0].Trim()), // Extrait juste le numéro du client
+                    dpDate.SelectedDate,
+                    int.Parse(txtQuantite.Text),
+                    "En attente" // État initial de la demande
+                );
+
+                // Sauvegarde de la demande
+                if (demande.Create() > 0)
+                {
+                    MessageBox.Show("Demande créée avec succès!", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                    RetournerVersRecherche();
+                }
+                else
+                {
+                    MessageBox.Show("Erreur lors de la création de la demande.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Une erreur est survenue : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private bool ValiderChamps()
+        {
+            if (string.IsNullOrEmpty(txtQuantite.Text))
+            {
+                MessageBox.Show("Veuillez entrer une quantité.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtQuantite.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtQuantite.Text, out int quantite) || quantite <= 0)
+            {
+                MessageBox.Show("La quantité doit être un nombre positif.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtQuantite.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtClient.Text))
+            {
+                MessageBox.Show("Veuillez sélectionner un client.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtClient.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtClient.Text.Split('-')[0].Trim(), out int _))
+            {
+                MessageBox.Show("Client invalide. Utilisez le bouton 'Modifier Client' pour sélectionner un client.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (!dpDate.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Veuillez sélectionner une date.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpDate.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void butAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            RetournerVersRecherche();
+        }
+
+        private void RetournerVersRecherche()
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.mainGrid.Children.Clear();
+                mainWindow.mainGrid.Children.Add(new UCRechercherVin());
+            }
         }
     }
 }

@@ -6,20 +6,111 @@
              xmlns:local="clr-namespace:Nicolas.UCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel Background="White" Width="250" Height="350">
-            <Label x:Name="labNouvelleDemande" Content="Nouvelle Demande" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Bold"/>
-            <Label x:Name="labDate" Content="Date" Margin="20,10,0,0"/>
-            <DatePicker x:Name="dpDate" HorizontalAlignment="Center" Margin="0,0,25,0"/>
-            <Label x:Name="labQuantite" Content="Quantité" Margin="20,10,0,0"/>
-            <TextBox x:Name="txtQuantite" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,25,0" Width="150"/>
-            <Label x:Name="labClient" Content="Client" Margin="20,10,0,0"/>
-            <TextBox x:Name="txtClient" TextWrapping="Wrap" Width="150" HorizontalAlignment="Center" Margin="0,0,25,0"/>
-            <Button x:Name="butModifClient" Content="Modifier Client" Foreground="#FFDEDEDE" Background="Black" HorizontalAlignment="Left" Margin="40,10,0,0"/>
-            <Button x:Name="butNouveauClient" Content="Nouveau Client " HorizontalAlignment="Left" Margin="40,5,0,0" Background="Black" Foreground="#FFDEDEDE" Click="butNouveauClient_Click" />
-            <Button x:Name="butValiderDemande" Content="Valider Demande" Foreground="#FFDEDEDE" Background="Black" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+    <Border Padding="10">
+        <Grid Height="430" Width="780">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" MinHeight="260"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        </StackPanel>
+            <!-- Titre -->
+            <Label Content="Nouvelle Demande" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,15" 
+                   Foreground="White" Width="212"/>
 
-    </Grid>
+            <!-- Contenu principal -->
+            <!-- Contenu principal -->
+            <Grid Grid.Row="1" Margin="140,10,168,10" Background="#A5FFFFFF">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" MinHeight="35.96"/>
+                    <RowDefinition Height="*" MinHeight="40"/>
+                </Grid.RowDefinitions>
+
+                <!-- Vin sélectionné -->
+                <Label Grid.Row="0" Grid.Column="0" 
+                       Content="Vin sélectionné :" 
+                       FontWeight="Bold" 
+                       Margin="0,0,10,0"
+                       VerticalAlignment="Center"
+                       Foreground="Black" Height="26"/>
+                <TextBlock Grid.Row="0" Grid.Column="1"
+                          x:Name="txtVinSelectionne" 
+                          Background="#FAFAFA"
+                          Padding="5"
+                          TextWrapping="Wrap"
+                          MinHeight="25"
+                          Margin="10,0,10,10" VerticalAlignment="Center"/>
+
+                <!-- Date -->
+                <Label Grid.Row="1" Grid.Column="0" 
+                       Content="Date :" 
+                       FontWeight="Bold"
+                       Margin="0,0,10,10"
+                       Foreground="Black" VerticalAlignment="Center"/>
+                <DatePicker Grid.Row="1" Grid.Column="1"
+                           x:Name="dpDate" 
+                           Margin="10,0,0,10" HorizontalAlignment="Left" Width="150" VerticalAlignment="Center"/>
+
+                <!-- Quantité -->
+                <Label Grid.Row="2" Grid.Column="0" 
+                       Content="Quantité :" 
+                       FontWeight="Bold"
+                       Margin="0,0,10,10"
+                       Foreground="Black" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                        x:Name="txtQuantite"
+                        Margin="10,0,10,11" VerticalAlignment="Center"/>
+
+                <!-- Client -->
+                <Label Grid.Row="3" Grid.Column="0" 
+                       Content="Client :" 
+                       FontWeight="Bold"
+                       Margin="0,0,10,10"
+                       Foreground="Black" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="3" Grid.Column="1"
+                        x:Name="txtClient"
+                        Margin="10,0,10,11" VerticalAlignment="Center"/>
+
+                <!-- Boutons Client -->
+                <StackPanel Grid.Row="4"
+                          Orientation="Horizontal"
+                          Margin="112,0,0,10" Grid.ColumnSpan="2">
+                    <Button x:Name="butModifClient" 
+                            Content="Modifier Client"
+                            Width="120" Height="30"
+                            Margin="0,0,10,0"/>
+                    <Button x:Name="butNouveauClient"
+                            Content="Nouveau Client"
+                            Width="120" Height="30"
+                            Click="butNouveauClient_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Boutons de bas de page -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top" Height="35" Width="320">
+                <Button x:Name="butValiderDemande"
+                        Content="Valider la demande"
+                        Width="150" Height="35"
+                        Margin="0,0,20,0"
+                        Click="butValiderDemande_Click"/>
+                <Button x:Name="butAnnuler"
+                        Content="Annuler"
+                        Width="150" Height="35"
+                        Click="butAnnuler_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>
