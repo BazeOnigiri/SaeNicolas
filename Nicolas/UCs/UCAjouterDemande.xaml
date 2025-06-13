@@ -97,9 +97,10 @@
                           Orientation="Horizontal"
                           Margin="112,0,0,10" Grid.ColumnSpan="2">
                     <Button x:Name="butModifClient" 
-                            Content="Modifier Client"
-                            Width="120" Height="30"
-                            Margin="0,0,10,0"/>
+        Content="Modifier Client"
+        Width="120" Height="30"
+        Margin="0,0,10,0"
+        Click="butModifClient_Click"/>
                     <Button x:Name="butNouveauClient"
                             Content="Nouveau Client"
                             Width="120" Height="30"

@@ -75,35 +75,58 @@ namespace Nicolas.UCs
 
         private void butModifClient_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtClient.Text))
+            if (listSuggestions.SelectedItem == null)
             {
-                MessageBox.Show("Veuillez d'abord entrer un numéro de client.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Veuillez d'abord sélectionner un client.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-            if (!int.TryParse(txtClient.Text, out int numClient))
-            {
-                MessageBox.Show("Le numéro de client doit être un nombre.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            string selectedClientText = listSuggestions.SelectedItem.ToString();
+            int clientId = int.Parse(selectedClientText.Split('-')[0].Trim());
 
-            var client = new Client(numClient, null, null, null);
-            client.Read();
-            if (client.NumClient > 0)
+            // Rechercher le client complet dans la liste
+            Client clientSelectionne = tousLesClients.FirstOrDefault(c => c.NumClient == clientId);
+            
+            if (clientSelectionne != null)
             {
-                clientSelectionne = client;
-                txtClient.Text = $"{client.NumClient} - {client.NomClient} {client.PrenomClient}";
-            }
-            else
-            {
-                MessageBox.Show("Client non trouvé.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Ouvrir la fenêtre FicheClient avec le client sélectionné
+                FicheClient ficheClient = new FicheClient(clientSelectionne);
+                ficheClient.ShowDialog(); // Utilisation de ShowDialog pour bloquer l'interaction avec la fenêtre parent
+                
+                // Rafraîchir la liste des clients après la modification
+                var client = new Client();
+                tousLesClients = client.FindAll();
+                
+                // Mettre à jour le texte avec les nouvelles informations
+                Client clientMisAJour = tousLesClients.FirstOrDefault(c => c.NumClient == clientId);
+                if (clientMisAJour != null)
+                {
+                    txtClient.Text = $"{clientMisAJour.NumClient} - {clientMisAJour.NomClient} {clientMisAJour.PrenomClient}";
+                }
             }
         }
 
         private void butNouveauClient_Click(object sender, RoutedEventArgs e)
         {
-            FicheClient client = new FicheClient();
-            client.Show();
+            FicheClient ficheClient = new FicheClient();
+            if (ficheClient.ShowDialog() == true) // ShowDialog retournera true si un client a été créé
+            {
+                // Rafraîchir la liste des clients
+                var client = new Client();
+                tousLesClients = client.FindAll();
+
+                // Récupérer le dernier client créé (celui avec le plus grand NumClient)
+                var dernierClient = tousLesClients.OrderByDescending(c => c.NumClient).FirstOrDefault();
+                if (dernierClient != null)
+                {
+                    // Mettre à jour le texte avec le nouveau client
+                    txtClient.Text = $"{dernierClient.NumClient} - {dernierClient.NomClient} {dernierClient.PrenomClient}";
+                    
+                    // Effacer les suggestions pour éviter la confusion
+                    listSuggestions.Items.Clear();
+                    listSuggestions.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         private void butValiderDemande_Click(object sender, RoutedEventArgs e)
