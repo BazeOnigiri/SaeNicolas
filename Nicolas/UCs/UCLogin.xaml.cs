@@ -22,6 +22,9 @@ namespace Nicolas.UCs
     /// </summary>
     public partial class UCLogin : UserControl
     {
+        public string Login { get; set; }
+        public string Mdp { get; set; }
+
         public UCLogin()
         {
             InitializeComponent();
@@ -29,13 +32,30 @@ namespace Nicolas.UCs
 
         private void butConnexion_Click(object sender, RoutedEventArgs e)
         {
-            using (NpgsqlCommand cmdSelect = new NpgsqlCommand("SELECT EXISTS (SELECT 1 FROM employe WHERE login = @login)"))
+            // Récupérer les valeurs depuis les champs de saisie
+            Login = txtIdentifiant.Text;
+            Mdp = txtMdp.Text; // Supposant que vous avez un PasswordBox nommé txtMotDePasse
+
+            try
             {
+                // D'abord tester la connexion avec les credentials fournis
+                string testConnectionString = $"Host=srv-peda-new;Port=5433;Username={Login};Password={Mdp};Database=kiehlt_sea201;Options='-c search_path=kiehlt'";
+
+                using (var testConnection = new NpgsqlConnection(testConnectionString))
+                {
+                    testConnection.Open(); // Test de connexion
+                    testConnection.Close();
+                }
+
+                // Si la connexion fonctionne, initialiser DataAccess
+                DataAccess.Initialize(Login, Mdp);
+
+                // Maintenant récupérer la liste des employés
                 Employe employe = new Employe();
                 List<Employe> employes = employe.FindAll();
 
                 // Rechercher l'employé par login
-                Employe employeConnecte = employes.FirstOrDefault(emp => emp.Login == txtIdentifiant.Text);
+                Employe employeConnecte = employes.FirstOrDefault(emp => emp.Login == Login);
 
                 if (employeConnecte != null)
                 {
@@ -78,9 +98,13 @@ namespace Nicolas.UCs
                 {
                     txtErreur.Text = "Identifiant incorrect ! Veuillez réessayer";
                 }
-
             }
-            
+            catch (Exception ex)
+            {
+                // Gérer les erreurs de connexion à la base de données
+                txtErreur.Text = "Erreur de connexion à la base de données. Vérifiez vos identifiants.";
+                LogError.Log(ex, "Erreur lors de la connexion avec les credentials utilisateur");
+            }
         }
     }
 }

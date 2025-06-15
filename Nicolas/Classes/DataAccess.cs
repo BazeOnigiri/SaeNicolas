@@ -7,29 +7,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-
-
-
-
 namespace Nicolas.Classes
 {
     internal class DataAccess
     {
-        private static readonly DataAccess instance = new DataAccess();
-        private readonly string connectionString = "Host=srv-peda-new;Port=5433;Username=kiehlt;Password=cAxWoK;Database=kiehlt_sea201;Options='-c search_path=kiehlt'";
+        private static DataAccess instance;
+        private string connectionString;
         private NpgsqlConnection connection;
 
         public static DataAccess Instance
         {
             get
             {
+                if (instance == null)
+                {
+                    // Utiliser des credentials par défaut si aucune initialisation n'a été faite
+                    // ATTENTION: Ceci est temporaire pour éviter l'erreur, mais pas sécurisé
+                    instance = new DataAccess("postgres", "postgres");
+                }
                 return instance;
             }
         }
 
-        //  Constructeur privé pour empêcher l'instanciation multiple
-        private DataAccess()
+        // Propriété pour vérifier si DataAccess a été initialisé avec des credentials utilisateur
+        public static bool IsInitializedWithUserCredentials { get; private set; } = false;
+
+        // Méthode statique pour initialiser DataAccess avec les credentials
+        public static void Initialize(string username, string password)
         {
+            // Fermer l'ancienne connexion si elle existe
+            if (instance != null)
+            {
+                instance.CloseConnection();
+            }
+
+            instance = new DataAccess(username, password);
+            IsInitializedWithUserCredentials = true;
+        }
+
+        // Constructeur privé qui prend les credentials en paramètre
+        private DataAccess(string username, string password)
+        {
+            connectionString = $"Host=localhost;Port=5432;Username={username};Password={password};Database=SAE201;Options='-c search_path=public'";
 
             try
             {
@@ -41,7 +60,6 @@ namespace Nicolas.Classes
                 throw;
             }
         }
-
 
         // pour récupérer la connexion (et l'ouvrir si nécessaire)
         public NpgsqlConnection GetConnection()
@@ -59,11 +77,10 @@ namespace Nicolas.Classes
                 }
             }
 
-
             return connection;
         }
 
-        //  pour requêtes SELECT et retourne un DataTable ( table de données en mémoire)
+        // pour requêtes SELECT et retourne un DataTable ( table de données en mémoire)
         public DataTable ExecuteSelect(NpgsqlCommand cmd)
         {
             DataTable dataTable = new DataTable();
@@ -83,8 +100,7 @@ namespace Nicolas.Classes
             return dataTable;
         }
 
-        //   pour requêtes INSERT et renvoie l'ID généré
-
+        // pour requêtes INSERT et renvoie l'ID généré
         public int ExecuteInsert(NpgsqlCommand cmd)
         {
             int nb = 0;
@@ -92,7 +108,6 @@ namespace Nicolas.Classes
             {
                 cmd.Connection = GetConnection();
                 nb = (int)cmd.ExecuteScalar();
-
             }
             catch (Exception ex)
             {
@@ -102,10 +117,7 @@ namespace Nicolas.Classes
             return nb;
         }
 
-
-
-
-        //  pour requêtes UPDATE, DELETE
+        // pour requêtes UPDATE, DELETE
         public int ExecuteSet(NpgsqlCommand cmd)
         {
             int nb = 0;
@@ -120,7 +132,6 @@ namespace Nicolas.Classes
                 throw;
             }
             return nb;
-
         }
 
         // pour requêtes avec une seule valeur retour  (ex : COUNT, SUM) 
@@ -138,15 +149,25 @@ namespace Nicolas.Classes
                 throw;
             }
             return res;
-
         }
 
-        //  Fermer la connexion 
+        // Fermer la connexion 
         public void CloseConnection()
         {
-            if (connection.State == ConnectionState.Open)
+            if (connection != null && connection.State == ConnectionState.Open)
             {
                 connection.Close();
+            }
+        }
+
+        // Méthode pour réinitialiser l'instance (utile pour les déconnexions)
+        public static void Reset()
+        {
+            if (instance != null)
+            {
+                instance.CloseConnection();
+                instance = null;
+                IsInitializedWithUserCredentials = false;
             }
         }
     }
