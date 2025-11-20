@@ -1,3 +1,4 @@
+DOESN'T WORK ANYMORE
 # Commercial Management Application (SAE Nicolas)
 
 This is a desktop application project developed in C# (WPF) with data persistence managed by a PostgreSQL database (using Npgsql).
